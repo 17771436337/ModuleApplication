@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cai.project.game.game_teris">
+    <application>
+
+            
+           
+     <activity
+            android:name=".androidteris.HomePage"
+            android:label="俄罗斯方块" >
+     </activity>
+        
+    
+     <activity
+            android:name=".androidteris.MainActivity"
+            android:label="@string/app_name">
+           
+        </activity>
+        
+        <activity
+            android:name=".androidteris.SettingPage"
+            android:label="设置">
+           
+        </activity>
+        <activity
+            android:name=".androidteris.AboutActivity"
+            android:label="游戏说明">
+        </activity>
+        <activity  
+            android:name=".androidteris.MusicPage" >
+        </activity>
+
+
+        <activity
+            android:name=".androidteris.GameOver" >
+        </activity>
+        <service android:name=".androidteris.BackService"></service>
+        
+
+    </application>
+
+</manifest>
