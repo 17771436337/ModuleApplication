@@ -1,6 +1,6 @@
 ext {
     //是否处于Debug模式
-    isDebug = true
+    isDebug = false
 
     common_android = [
             compileSdkVersion: 28,

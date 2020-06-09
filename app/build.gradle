@@ -47,6 +47,7 @@ dependencies {
         implementation project(':user')
         implementation project(':game_2048')
         implementation project(':game_teris')
+        implementation project(':web')
     }
     //-----------------------------
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'

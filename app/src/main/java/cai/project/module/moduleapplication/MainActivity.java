@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import cai.project.module.common_arouter.GamePath;
 import cai.project.module.common_arouter.HomePath;
 import cai.project.module.common_arouter.UserPath;
+import cai.project.module.common_arouter.WebPath;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG ="获取包名";
@@ -33,26 +34,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
-
-//        PackageManager packageManager = getPackageManager();
-//        int flag = PackageManager.GET_UNINSTALLED_PACKAGES;
-///*
-//GET_UNINSTALLED_PACKAGES 这个常数在API级别24中被弃用。用MATCH_UNINSTALLED_PACKAGES替换
-// */
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            flag = PackageManager.MATCH_UNINSTALLED_PACKAGES;
-//        }
-//        List<PackageInfo> installedPackages = packageManager.getInstalledPackages(flag);
-//        for (PackageInfo installedPackage : installedPackages) {
-//            Log.i(TAG, "----------packagename = " + installedPackage.packageName);
-//        }
-
     }
 
 
 
-    @OnClick({R.id.bt_home, R.id.bt_user,R.id.bt_game2048,R.id.bt_game_teris})
+    @OnClick({R.id.bt_home, R.id.bt_user,R.id.bt_game2048,R.id.bt_game_teris,R.id.bt_web})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_home:
@@ -66,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.bt_game_teris:
                 ARouter.getInstance().build(GamePath.GAME_TERIS).navigation();
+                break;
+            case R.id.bt_web:
+                ARouter.getInstance().build(WebPath.WEB_X5).withString("mUrl","file:///android_asset/love1.html").withString("mTitle","表白").navigation();
                 break;
         }
     }

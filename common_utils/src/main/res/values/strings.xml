@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">common_utils</string>
+
+    <string name="actionbar_share">分享给朋友\(^o^)/~</string>
+    <string name="action_share">分享</string>
+</resources>

@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cai.project.module.common.utils.AppUtils;
+import cai.project.module.common_utils.ToolsUtils;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,21 +20,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.bt_test)
+    @OnClick(R2.id.bt_test)
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_test:
-                if (AppUtils.checkApkExist(this, "com.ARTest.cn")) {
-                    Intent intent = new Intent();
+        if (view.getId() == R.id.bt_test){
+            if (ToolsUtils.checkApkExist(this, "com.ARTest.cn")) {
+                Intent intent = new Intent();
 //                intent.setAction();
-                    intent.setClassName("com.ARTest.cn", "com.unity3d.player.UnityPlayerActivity");
-                    intent.putExtra("data", "我是A的值");
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "请安装对应的app", Toast.LENGTH_SHORT).show();
-                }
-                break;
+                intent.setClassName("com.ARTest.cn", "com.unity3d.player.UnityPlayerActivity");
+                intent.putExtra("data", "我是A的值");
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "请安装对应的app", Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
 

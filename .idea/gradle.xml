@@ -15,10 +15,12 @@
             <option value="$PROJECT_DIR$/common_arouter" />
             <option value="$PROJECT_DIR$/common_database" />
             <option value="$PROJECT_DIR$/common_http" />
+            <option value="$PROJECT_DIR$/common_utils" />
             <option value="$PROJECT_DIR$/game_2048" />
             <option value="$PROJECT_DIR$/game_teris" />
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/user" />
+            <option value="$PROJECT_DIR$/web" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

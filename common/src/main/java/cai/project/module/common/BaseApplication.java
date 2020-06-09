@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
+import cai.project.module.common_utils.Utils;
+
 public class BaseApplication extends Application {
 
     private boolean isDebugARouter = true;
@@ -17,5 +19,7 @@ public class BaseApplication extends Application {
             ARouter.openDebug();
         }
         ARouter.init(this);
+
+        Utils.getInstance().init(this);
     }
 }

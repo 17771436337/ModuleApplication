@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="点击跳转User"
         android:layout_marginTop="10dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
   <Button
       android:id="@+id/bt_game2048"
@@ -28,13 +28,22 @@
       android:layout_height="wrap_content"
       android:text="点击跳转游戏2048"
       android:layout_marginTop="10dp"
-      android:visibility="gone"/>
+      android:visibility="visible"/>
 
   <Button
-      android:id="@+id/bt_game_teris"
+    android:id="@+id/bt_game_teris"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="点击跳转游戏俄罗斯方块"
+    android:layout_marginTop="10dp"
+    android:visibility="visible"/>
+
+
+  <Button
+      android:id="@+id/bt_web"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="点击跳转游戏俄罗斯方块"
+      android:text="点击跳转网页"
       android:layout_marginTop="10dp"
-      android:visibility="gone"/>
+      android:visibility="visible"/>
 </LinearLayout>
