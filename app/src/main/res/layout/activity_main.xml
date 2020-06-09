@@ -10,7 +10,7 @@
       android:id="@+id/bt_home"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="点击跳转Home"
+      android:text="点击跳转home"
       android:layout_marginTop="10dp"/>
 
 
@@ -19,19 +19,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="点击跳转User"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
 
   <Button
       android:id="@+id/bt_game2048"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="点击跳转游戏2048"
-      android:layout_marginTop="10dp"/>
+      android:layout_marginTop="10dp"
+      android:visibility="gone"/>
 
   <Button
       android:id="@+id/bt_game_teris"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="点击跳转游戏俄罗斯方块"
-      android:layout_marginTop="10dp"/>
+      android:layout_marginTop="10dp"
+      android:visibility="gone"/>
 </LinearLayout>

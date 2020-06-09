@@ -5,10 +5,9 @@ if (rootProject.ext.isDebug.toBoolean()) {
     apply plugin: 'com.android.library'
 }
 apply plugin: 'com.jakewharton.butterknife'
+
 android {
     compileSdkVersion rootProject.ext.common_android.compileSdkVersion
-
-
 
     defaultConfig {
         minSdkVersion rootProject.ext.common_android.minSdkVersion
@@ -17,13 +16,11 @@ android {
         versionName rootProject.ext.common_android.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
-
     }
 // 这里是需要添加代码
     compileOptions {
@@ -46,17 +43,17 @@ android {
             }
         }
     }
-
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation rootProject.ext.common_dependencies.appcompatV7
     implementation rootProject.ext.common_dependencies.constraint
     testImplementation rootProject.ext.common_dependencies.junit
     androidTestImplementation rootProject.ext.common_dependencies.test
     androidTestImplementation rootProject.ext.common_dependencies.espresso
-    //-------------------
+    //-----------------------
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(':common')
 

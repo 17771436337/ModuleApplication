@@ -24,7 +24,11 @@ android {
             }
         }
     }
-
+// 这里是需要添加代码
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     buildTypes {
         release {
             minifyEnabled false
