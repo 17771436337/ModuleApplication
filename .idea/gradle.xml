@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/common_database" />
             <option value="$PROJECT_DIR$/common_http" />
             <option value="$PROJECT_DIR$/common_utils" />
+            <option value="$PROJECT_DIR$/ftp" />
             <option value="$PROJECT_DIR$/game_2048" />
             <option value="$PROJECT_DIR$/game_teris" />
             <option value="$PROJECT_DIR$/home" />

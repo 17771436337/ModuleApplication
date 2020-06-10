@@ -15,6 +15,10 @@ import cai.project.module.web.R2;
 import cai.project.module.web.activity.x5.RichWebViewActivity;
 import cai.project.module.web.activity.x5.X5WebViewActivity;
 
+
+/**
+ * web界面的测试
+ */
 public class TestActivity extends AppCompatActivity {
 
     @BindView(R2.id.bt_test)
@@ -31,7 +35,7 @@ public class TestActivity extends AppCompatActivity {
     public void onClick(View view) {
 
             if (view.getId() == R.id.bt_test){
-            X5WebViewActivity.loadUrl(this,"http://www.baidu.com","百度");
+            X5WebViewActivity.loadUrl(this,"file:///android_asset/love1.html","表白");
         }else
             if (view.getId() == R.id.bt_rich){
                 startActivity(new Intent(this,RichWebViewActivity.class));
