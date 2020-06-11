@@ -1,8 +1,9 @@
-package cai.project.module.ftp.server;
+package cai.project.module.ftp;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
@@ -18,7 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cai.project.module.common_utils.ServerUtils;
 import cai.project.module.common_utils.WifiUtils;
-import cai.project.module.ftp.R;
+import cai.project.module.ftp.client.FTPToolkit;
+import cai.project.module.ftp.server.FtpService;
 
 public class MainActivity extends FragmentActivity {
 
@@ -34,6 +36,8 @@ public class MainActivity extends FragmentActivity {
     Button btStart;
     @BindView(R.id.bt_setup)
     Button btSetup;
+
+
 
     //----------------------
     String ip;
@@ -58,6 +62,13 @@ public class MainActivity extends FragmentActivity {
 
         tvAccount.setText("账号：admin");
         tvPassword.setText("密码：123456");
+
+
+        if (ServerUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
+            btStart.setText("停止");
+        } else {
+            btStart.setText("开始");
+        }
     }
 
     @OnClick({R.id.bt_start, R.id.bt_setup})
@@ -65,20 +76,19 @@ public class MainActivity extends FragmentActivity {
         if (view.getId() == R.id.bt_start) {
 
             RxPermissions rxPermissions = new RxPermissions(this);
-
             rxPermissions
-                    .request(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe(granted -> {
                         if (granted) { // Always true pre-M
                             if (ServerUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
                                 stopService(new Intent(this, FtpService.class));
                                 btStart.setText("开始");
-                            }else{
-                                startService(new Intent(this,FtpService.class));
+                            } else {
+                                startService(new Intent(this, FtpService.class));
                                 btStart.setText("停止");
                             }
                         } else {
-                          Toast.makeText(MainActivity.this,"文件权限未开启",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "文件权限未开启", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -89,9 +99,6 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        stopService(new Intent(this, FtpService.class));
-    }
+
+
 }
