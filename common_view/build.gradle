@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion rootProject.ext.common_android.compileSdkVersion
 
+
     defaultConfig {
         minSdkVersion rootProject.ext.common_android.minSdkVersion
         targetSdkVersion rootProject.ext.common_android.targetSdkVersion
@@ -25,10 +26,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation rootProject.ext.common_dependencies.appcompatV7
     testImplementation rootProject.ext.common_dependencies.junit
     androidTestImplementation rootProject.ext.common_dependencies.test
     androidTestImplementation rootProject.ext.common_dependencies.espresso
-
-    implementation 'com.google.code.gson:gson:2.7'
 }
