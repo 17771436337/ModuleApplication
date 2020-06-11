@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#108EFB">
+    android:background="@drawable/test">
 
-<cai.project.module.common_view.animation.snow.FallingView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/snow_view"/>
+    <cai.project.module.common_view.animation.snow.FallingView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/snow_view"/>
 
 
     <cai.project.module.common_view.animation.star_cloud.view.PlanetsView
@@ -19,6 +19,7 @@
         android:layout_marginRight="10dp"
         app:autoScrollMode="decelerate"
         app:darkColor="#ff0000"
+        android:layout_centerInParent="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -27,4 +28,5 @@
         app:radiusPercent="0.75"
         app:scrollSpeed="20" />
 
-</FrameLayout>
+</RelativeLayout>
+

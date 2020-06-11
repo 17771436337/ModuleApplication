@@ -19,7 +19,6 @@ public class BaseApplication extends Application {
             ARouter.openDebug();
         }
         ARouter.init(this);
-
         Utils.init(this);
     }
 }

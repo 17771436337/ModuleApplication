@@ -2,8 +2,6 @@ package cai.project.module.common_view.animation.snow;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -109,3 +107,15 @@ public class FallingView extends View {
         });
     }
 }
+
+/*********使用方法*********/
+/*
+//初始化一个雪球样式的fallObject
+        FallObject.Builder builder = new FallObject.Builder(getResources().getDrawable(R.drawable.iocn_snow));
+        FallObject fallObject = builder
+                .setSpeed(3,true)
+                .setSize(40,40,true)
+                .setWind(7,true,true)
+                .build();
+        snowView.addFallObject(fallObject,50);//添加50个雪球对象
+ */
