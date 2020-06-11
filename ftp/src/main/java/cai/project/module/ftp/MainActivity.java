@@ -3,7 +3,6 @@ package cai.project.module.ftp;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
@@ -17,9 +16,9 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cai.project.module.common_utils.ServerUtils;
-import cai.project.module.common_utils.WifiUtils;
-import cai.project.module.ftp.client.FTPToolkit;
+
+import cai.project.module.common_utils.codeutils.NetworkUtils;
+import cai.project.module.common_utils.codeutils.ServiceUtils;
 import cai.project.module.ftp.server.FtpService;
 
 public class MainActivity extends FragmentActivity {
@@ -52,7 +51,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
-        ip = WifiUtils.getInstance().getIp();
+        ip = NetworkUtils.getIPAddress(true);
         port = "2221";
         if (TextUtils.isEmpty(ip)) {
             tvUrl.setText("URL: ");
@@ -64,7 +63,7 @@ public class MainActivity extends FragmentActivity {
         tvPassword.setText("密码：123456");
 
 
-        if (ServerUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
+        if (ServiceUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
             btStart.setText("停止");
         } else {
             btStart.setText("开始");
@@ -80,7 +79,7 @@ public class MainActivity extends FragmentActivity {
                     .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe(granted -> {
                         if (granted) { // Always true pre-M
-                            if (ServerUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
+                            if (ServiceUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
                                 stopService(new Intent(this, FtpService.class));
                                 btStart.setText("开始");
                             } else {
