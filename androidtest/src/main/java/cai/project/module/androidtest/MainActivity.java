@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cai.project.module.common_utils.ToolsUtils;
+import cai.project.module.common_utils.codeutils.AppUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R2.id.bt_test)
     public void onClick(View view) {
         if (view.getId() == R.id.bt_test){
-            if (ToolsUtils.checkApkExist(this, "com.ARTest.cn")) {
+            if ( AppUtils.isAppInstalled( "com.ARTest.cn")) {
                 Intent intent = new Intent();
 //                intent.setAction();
                 intent.setClassName("com.ARTest.cn", "com.unity3d.player.UnityPlayerActivity");

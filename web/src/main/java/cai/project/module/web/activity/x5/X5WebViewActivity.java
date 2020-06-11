@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import cai.project.module.common_arouter.WebPath;
-import cai.project.module.common_utils.BaseTools;
 import cai.project.module.common_utils.statusbar.StatusBarUtil;
 import cai.project.module.web.R;
 import cai.project.module.web.client.CommonJavascriptInterface;

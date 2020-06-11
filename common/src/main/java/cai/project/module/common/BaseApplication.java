@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
-import cai.project.module.common_utils.Utils;
+import cai.project.module.common_utils.codeutils.Utils;
 
 public class BaseApplication extends Application {
 
@@ -20,6 +20,6 @@ public class BaseApplication extends Application {
         }
         ARouter.init(this);
 
-        Utils.getInstance().init(this);
+        Utils.init(this);
     }
 }

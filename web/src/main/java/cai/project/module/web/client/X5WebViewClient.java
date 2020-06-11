@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import cai.project.module.common_utils.ToolsUtils;
 import cai.project.module.web.interfac.IWebViewActivity;
 
 

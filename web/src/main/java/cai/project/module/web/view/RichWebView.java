@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import cai.project.module.common_utils.WebViewUtils;
+import cai.project.module.common_utils.codeutils.ImageUtils;
+import cai.project.module.common_utils.codeutils.TimeUtils;
 
 
 /**
@@ -254,8 +255,8 @@ public class RichWebView extends X5WebView {
 
     @Override
     public void setBackgroundResource(int resid) {
-        Bitmap bitmap = WebViewUtils.decodeResource(getContext(), resid);
-        String base64 = WebViewUtils.toBase64(bitmap);
+        Bitmap bitmap = ImageUtils.decodeResource(getContext(), resid);
+        String base64 = ImageUtils.toBase64(bitmap);
         bitmap.recycle();
 
         exec("javascript:RE.setBackgroundImage('url(data:image/png;base64," + base64 + ")');");
@@ -263,8 +264,8 @@ public class RichWebView extends X5WebView {
 
     @Override
     public void setBackground(Drawable background) {
-        Bitmap bitmap = WebViewUtils.toBitmap(background);
-        String base64 = WebViewUtils.toBase64(bitmap);
+        Bitmap bitmap = ImageUtils.drawable2Bitmap(background);
+        String base64 = ImageUtils.toBase64(bitmap);
         bitmap.recycle();
 
         exec("javascript:RE.setBackgroundImage('url(data:image/png;base64," + base64 + ")');");
@@ -429,7 +430,7 @@ public class RichWebView extends X5WebView {
 
     public void insertTodo() {
         exec("javascript:RE.prepareInsert();");
-        exec("javascript:RE.setTodo('" + WebViewUtils.getCurrentTime() + "');");
+        exec("javascript:RE.setTodo('" + TimeUtils.getNowMills() + "');");
     }
 
     public void focusEditor() {
