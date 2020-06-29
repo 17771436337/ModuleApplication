@@ -1,13 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cai.project.module.love" >
-
+    package="cai.project.module.mqtt" >
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name="cai.project.module.common.BaseApplication"
         android:allowBackup="true"
@@ -24,6 +22,16 @@
             </intent-filter>
         </activity>
 
+        <!-- Mqtt服务 -->
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <service android:name=".service.MQTTClientService"/>
 
+        <receiver android:name=".broadcast.MQTTBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.cmy.module.mqtt.start"/>
+                <action android:name="com.cmy.module.mqtt.stop"/>
+                <action android:name="com.cmy.module.mqtt.send"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

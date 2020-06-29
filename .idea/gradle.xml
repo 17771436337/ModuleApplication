@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/game_teris" />
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/love" />
+            <option value="$PROJECT_DIR$/mqtt" />
             <option value="$PROJECT_DIR$/user" />
             <option value="$PROJECT_DIR$/web" />
           </set>

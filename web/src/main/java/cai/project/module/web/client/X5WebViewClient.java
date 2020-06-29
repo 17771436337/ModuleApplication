@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import cai.project.module.common_utils.codeutils.AppUtils;
+import cai.project.module.common_utils.codeutils.NetworkUtils;
 import cai.project.module.web.interfac.IWebViewActivity;
 
 
@@ -48,7 +50,7 @@ public class X5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
 
     @Override
     public void onPageFinished(com.tencent.smtt.sdk.WebView view, String url) {
-        if (!ToolsUtils.isNetworkConnected(getWebPageView().getActivity())) {
+        if (!NetworkUtils.isConnected()) {
             getWebPageView().hideProgressBar();
         }
         getWebPageView().addImageClickListener(view);
@@ -96,7 +98,7 @@ public class X5WebViewClient extends com.tencent.smtt.sdk.WebViewClient {
         } else {
             startActivity(url);
         }
-        if (ToolsUtils.checkApkExist(getWebPageView().getActivity(), appPackageName)) {
+        if (AppUtils.isAppInstalled(appPackageName)) {
             startActivity(url);
         }
     }

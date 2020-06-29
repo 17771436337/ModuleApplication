@@ -18,8 +18,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import cai.project.module.common_utils.codeutils.NetworkUtils;
+import cai.project.module.common_utils.codeutils.NotificationUtils;
 import cai.project.module.common_utils.codeutils.ServiceUtils;
+import cai.project.module.common_view.LinNotify;
 import cai.project.module.ftp.server.FtpService;
+
+import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 
 public class MainActivity extends FragmentActivity {
 
@@ -63,10 +67,27 @@ public class MainActivity extends FragmentActivity {
         tvPassword.setText("密码：123456");
 
 
+
         if (ServiceUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
             btStart.setText("停止");
+            toCreateNotification("FTP服务器运行中");
         } else {
             btStart.setText("开始");
+            toCreateNotification("FTP服务器已关闭");
+        }
+
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (ServiceUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
+            btStart.setText("停止");
+            toCreateNotification("FTP服务器运行中");
+        } else {
+            btStart.setText("开始");
+            toCreateNotification("FTP服务器已关闭");
         }
     }
 
@@ -82,9 +103,11 @@ public class MainActivity extends FragmentActivity {
                             if (ServiceUtils.isServiceRunning("cai.project.module.ftp.server.FtpService")) {
                                 stopService(new Intent(this, FtpService.class));
                                 btStart.setText("开始");
+                                toCreateNotification("FTP服务器运行中");
                             } else {
                                 startService(new Intent(this, FtpService.class));
                                 btStart.setText("停止");
+                                toCreateNotification("FTP服务器已关闭");
                             }
                         } else {
                             Toast.makeText(MainActivity.this, "文件权限未开启", Toast.LENGTH_SHORT).show();
@@ -97,7 +120,11 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public  void toCreateNotification(String message){
 
+        LinNotify.show(this, 0, 0, "FTP服务器", null,
+                message, PRIORITY_DEFAULT, null,null ,0, "chat", FtpService.class,MainActivity.class);
+    }
 
 
 }
