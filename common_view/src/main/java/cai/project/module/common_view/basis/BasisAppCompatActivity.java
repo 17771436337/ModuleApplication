@@ -1,18 +1,15 @@
-package cai.project.module.androidtest;
+package cai.project.module.common_view.basis;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public abstract class BasisAppCompatActivity extends AppCompatActivity implements BasisViewInterface {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_main_activity);
+        setContentView(getLayoutId());
     }
-
-
 }
