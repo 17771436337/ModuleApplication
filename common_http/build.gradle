@@ -28,5 +28,18 @@ dependencies {
     androidTestImplementation rootProject.ext.common_dependencies.test
     androidTestImplementation rootProject.ext.common_dependencies.espresso
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
-    api 'com.google.code.gson:gson:2.7'
+    api 'com.google.code.gson:gson:+'
+
+    //---------------------------
+//    /*rx-android-java*/
+//    implementation 'io.reactivex.rxjava2:rxandroid:+'
+//    implementation 'io.reactivex.rxjava2:rxjava:+'
+//    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:+'
+//    implementation 'com.trello:rxlifecycle-components:+'
+//    /*rotrofit*/
+//    implementation 'com.squareup.retrofit2:retrofit:+'
+//    implementation 'com.squareup.retrofit2:converter-gson:+'
+//    implementation 'com.squareup.retrofit2:adapter-rxjava2+'
+
+
 }

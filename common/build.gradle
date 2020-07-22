@@ -39,8 +39,7 @@ dependencies {
     api project(':common_arouter')
     api project(':common_database')
     //----------------
-    api 'com.jakewharton:butterknife:9.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+
     api project(':common_utils')
     api project(':common_view')
 

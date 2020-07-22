@@ -1,1 +1,1 @@
-include ':app', ':common', ':common_http', ':user', ':home', ':common_arouter', ':game_2048', ':game_teris', ':common_database', ':JavaTest', ':androidtest', ':web', ':common_utils', ':ftp', ':common_view', ':love', ':mqtt'
+include ':app', ':common', ':common_http', ':user', ':home', ':common_arouter', ':game_2048', ':game_teris', ':common_database', ':JavaTest', ':androidtest', ':web', ':common_utils', ':ftp', ':common_view', ':love', ':mqtt', ':accountmanagement'

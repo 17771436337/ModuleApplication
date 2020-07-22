@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
+import cai.project.module.common_view.basis.BasisActivity;
 
-public class BaseActivity extends AppCompatActivity {
+
+public abstract class BaseActivity extends BasisActivity {
     /*
     对应的点击事件等，如果是单个使用，也是使用R2.id.xx。如果是多个id一起使用，内部通过id来判断，
     则需要使用if...else if...，不能使用switch...case，并且if判断的id需要使用R.id.xx默认是会报错，
@@ -16,5 +18,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
     }
 }

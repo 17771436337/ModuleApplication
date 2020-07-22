@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
+import cai.project.module.common_database.BaseDataInit;
+import cai.project.module.common_database.DaoManager;
 import cai.project.module.common_utils.codeutils.Utils;
 import cai.project.module.common_view.LinNotify;
 
@@ -24,5 +26,10 @@ public class BaseApplication extends Application {
 
         //通知栏初始化（适配8.0）
         LinNotify.setNotificationChannel(this);
+
+
+        BaseDataInit.init(this);
+
+
     }
 }
