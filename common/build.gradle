@@ -37,7 +37,7 @@ dependencies {
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     api project(':common_http')
     api project(':common_arouter')
-    api project(':common_database')
+
     //----------------
     api 'com.jakewharton:butterknife:9.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
