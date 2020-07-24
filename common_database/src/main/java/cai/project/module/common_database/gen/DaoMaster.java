@@ -25,6 +25,7 @@ public class DaoMaster extends AbstractDaoMaster {
         AccountEntityDao.createTable(db, ifNotExists);
         AccountMessageEntityDao.createTable(db, ifNotExists);
         TestEntityDao.createTable(db, ifNotExists);
+        ApplyEntityDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -33,6 +34,7 @@ public class DaoMaster extends AbstractDaoMaster {
         AccountEntityDao.dropTable(db, ifExists);
         AccountMessageEntityDao.dropTable(db, ifExists);
         TestEntityDao.dropTable(db, ifExists);
+        ApplyEntityDao.dropTable(db, ifExists);
     }
 
     /**
@@ -55,6 +57,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(AccountEntityDao.class);
         registerDaoClass(AccountMessageEntityDao.class);
         registerDaoClass(TestEntityDao.class);
+        registerDaoClass(ApplyEntityDao.class);
     }
 
     public DaoSession newSession() {

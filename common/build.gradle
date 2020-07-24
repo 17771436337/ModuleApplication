@@ -33,6 +33,7 @@ dependencies {
     testImplementation rootProject.ext.common_dependencies.junit
     androidTestImplementation rootProject.ext.common_dependencies.test
     androidTestImplementation rootProject.ext.common_dependencies.espresso
+    api rootProject.ext.common_dependencies.recyclerview
     api 'com.alibaba:arouter-api:1.4.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     api project(':common_http')

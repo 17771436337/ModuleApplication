@@ -24,6 +24,7 @@ public class AccountMessageEntity {
     @NotNull
     private String detail;//账号信息的详情
 
+    @Property(nameInDb = "ACCOUNT_ID")
     @NotNull
     private Long accountId;//账号ID
 
@@ -97,4 +98,7 @@ public class AccountMessageEntity {
     public void setSORTNO(int SORTNO) {
         this.SORTNO = SORTNO;
     }
+
+
+
 }

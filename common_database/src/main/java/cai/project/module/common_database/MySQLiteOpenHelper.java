@@ -1,6 +1,5 @@
 package cai.project.module.common_database;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 

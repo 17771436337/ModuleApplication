@@ -52,6 +52,9 @@ dependencies {
     testImplementation rootProject.ext.common_dependencies.junit
     androidTestImplementation rootProject.ext.common_dependencies.test
     androidTestImplementation rootProject.ext.common_dependencies.espresso
+
+
+
     //-----------------------
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(':common')

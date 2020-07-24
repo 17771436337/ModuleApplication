@@ -2,7 +2,6 @@ package cai.project.module.common_database.entity.account;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.JoinProperty;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.Property;
@@ -204,5 +203,6 @@ public class AccountEntity {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getAccountEntityDao() : null;
     }
+
 
 }

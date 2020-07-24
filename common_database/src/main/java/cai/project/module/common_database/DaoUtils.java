@@ -6,10 +6,18 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import cai.project.module.common_database.dao.AccountDao;
+import cai.project.module.common_database.dao.ApplyDao;
+
 public class DaoUtils {
 
     @SuppressLint("StaticFieldLeak")
     private static Application sApp;
+
+
+    private static AccountDao accountDao;
+
+    private static ApplyDao applyDao;
 
     private DaoUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -44,7 +52,25 @@ public class DaoUtils {
 
 
 
+    /**
+     * 单列模式获取AccountDao对象
+     * @return
+     */
+    public static AccountDao getAccountDao(){
+        if (accountDao == null) {
+            accountDao = new AccountDao(sApp);
+        }
+        return accountDao;
+    }
 
-
-
+    /**
+     * 单列模式获取ApplyDao对象
+     * @return
+     */
+    public static ApplyDao getApplyDao(){
+        if (applyDao == null) {
+            applyDao = new ApplyDao(sApp);
+        }
+        return applyDao;
+    }
 }
