@@ -13,4 +13,8 @@ public final class Constants {
     public final static int ACCOUNT_MESSAGE_ERASABLE = 0x0010;//账号信息可删除状态
 
     public final static int ACCOUNT_MESSAGE_NOT_DELETE =ACCOUNT_MESSAGE_ERASABLE +1;//账号信息不可删除状态
+
+
+    // 7.0以上得读取地址标记
+    public static final String APP_PROVIDER = "cai.project.module.accountmanagement";
 }

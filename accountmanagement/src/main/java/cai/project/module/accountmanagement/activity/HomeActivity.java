@@ -1,14 +1,20 @@
 package cai.project.module.accountmanagement.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.google.gson.Gson;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +27,11 @@ import cai.project.module.common.adapter.helper.WeSwipe;
 import cai.project.module.common.adapter.helper.WeSwipeHelper;
 import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.account.AccountEntity;
+import cai.project.module.common_utils.codeutils.EncryptUtils;
+import cai.project.module.common_utils.codeutils.FileIOUtils;
+import cai.project.module.common_utils.codeutils.FileUtils;
+import cai.project.module.common_utils.codeutils.ToastUtils;
+import io.reactivex.functions.Consumer;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -55,15 +66,13 @@ public class HomeActivity extends AppCompatActivity {
                     if (adapter != null){
                             adapter.checkData(DaoUtils.getAccountDao().getAccountList());
                     }
-
-
                 }
             });
         }
     }
 
     private void initData() {
-        adapter  = new HomeAdapter(DaoUtils.getAccountDao().getAccountList());
+        adapter  = new HomeAdapter(null);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SpacesItemDecoration(30));
         recyclerView.setAdapter(adapter);
@@ -79,11 +88,26 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.iv_add})
+    @OnClick({R.id.iv_add ,R.id.tv})
     public void onClick(View view) {
         int id = view.getId();
         if (id ==  R.id.iv_add){
             AddAccountActivity.startAccountMessage(this, Constants.ADD,0L);
+        }else if (id == R.id.tv){
+
+            String json = new Gson().toJson( DaoUtils.getAccountDao().getAccountList());
+         boolean is=   FileIOUtils.writeFileFromBytesByChannel(
+                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/aimusic/备份.txt",
+                 json.getBytes(),true);
+            FileIOUtils.writeFileFromBytesByChannel(
+                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/aimusic/备份2.txt",
+                    EncryptUtils.encryptHmacMD5( json.getBytes(),new byte[]{15}),true);
+
+            if (is){
+                ToastUtils.showShort("点击了备份");
+            }else{
+                ToastUtils.showShort("保存文件失败");
+            }
         }
     }
 

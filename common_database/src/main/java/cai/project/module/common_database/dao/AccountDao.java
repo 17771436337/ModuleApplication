@@ -31,6 +31,20 @@ public class AccountDao extends BaseDao<AccountEntity>{
        return dao.insert(entity);
     }
 
+    /**批量添加账号*/
+    public void addAccounts(List<AccountEntity> data){
+        AccountEntityDao dao = daoSession.getAccountEntityDao();
+        for (AccountEntity temp:data) {
+            AccountEntity b =  dao.queryBuilder().where(AccountEntityDao.Properties.Id.eq(temp.getId())).build().unique();
+         if (b == null) {
+             Long id = dao.insert(temp);
+             int SORTNO = 1;
+             for (AccountMessageEntity temp2 : temp.getAccountMessages()) {
+                 addAccountMessage(id, temp2.getName(), temp2.getDetail(), SORTNO++);
+             }
+         }
+        }
+    }
 
     /**添加账号信息*/
     public void addAccountMessage(Long accountId,String title,String content,int SORTNO){
@@ -59,6 +73,8 @@ public class AccountDao extends BaseDao<AccountEntity>{
                 messageDao.delete(e);
             }
 
+            daoSession.clear();
+
         }
     }
 
@@ -71,6 +87,7 @@ public class AccountDao extends BaseDao<AccountEntity>{
             entity = new AccountMessageEntity(id,title,content,accountId,SORTNO);
             dao.update(entity);
         }
+        daoSession.clear();
     }
 
 
@@ -85,6 +102,7 @@ public class AccountDao extends BaseDao<AccountEntity>{
     /**获取当前的账号信息*/
     public AccountEntity getAccount(Long id){
         AccountEntityDao dao = daoSession.getAccountEntityDao();
+        dao.detachAll();
         return dao.load(id);
     }
 

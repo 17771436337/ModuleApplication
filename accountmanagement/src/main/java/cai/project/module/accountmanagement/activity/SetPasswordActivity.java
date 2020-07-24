@@ -115,4 +115,14 @@ public class SetPasswordActivity extends AppCompatActivity {
     private void getIntents(Intent intent) {
         type = intent.getIntExtra("TYPE", Constants.ADD);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (type == Constants.ADD) {
+           AppUtils.exitApp();
+        } else {
+             finish();
+        }
+    }
 }

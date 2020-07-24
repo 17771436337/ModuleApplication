@@ -84,5 +84,16 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"/>
 
+    <TextView
+        android:id="@+id/tv_restore"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:text="恢复备份"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"/>
 
 </RelativeLayout>
