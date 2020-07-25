@@ -13,8 +13,13 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.leon.lfilepickerlibrary.LFilePicker;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,9 +32,11 @@ import cai.project.module.common.adapter.helper.WeSwipe;
 import cai.project.module.common.adapter.helper.WeSwipeHelper;
 import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.account.AccountEntity;
+import cai.project.module.common_utils.codeutils.EncodeUtils;
 import cai.project.module.common_utils.codeutils.EncryptUtils;
 import cai.project.module.common_utils.codeutils.FileIOUtils;
 import cai.project.module.common_utils.codeutils.FileUtils;
+import cai.project.module.common_utils.codeutils.TimeUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
 import io.reactivex.functions.Consumer;
 
@@ -41,6 +48,9 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     HomeAdapter adapter;
+
+
+    int REQUESTCODE_FROM_ACTIVITY = 1000;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,25 +104,61 @@ public class HomeActivity extends AppCompatActivity {
         if (id ==  R.id.iv_add){
             AddAccountActivity.startAccountMessage(this, Constants.ADD,0L);
         }else if (id == R.id.tv){
+            RxPermissions mRxPermissions = new RxPermissions(this);
 
-            String json = new Gson().toJson( DaoUtils.getAccountDao().getAccountList());
-         boolean is=   FileIOUtils.writeFileFromBytesByChannel(
-                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/aimusic/备份.txt",
-                 json.getBytes(),true);
-            FileIOUtils.writeFileFromBytesByChannel(
-                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/aimusic/备份2.txt",
-                    EncryptUtils.encryptHmacMD5( json.getBytes(),new byte[]{15}),true);
+            mRxPermissions.requestEachCombined( Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Permission>() {
+            @Override
+            public void accept(Permission permission) throws Exception {
+                if (permission.granted){ // 用户已经同意该权限
+                                new LFilePicker()
+                                        .withActivity(HomeActivity.this)
+                                        .withRequestCode(REQUESTCODE_FROM_ACTIVITY)
+                                        .withStartPath(Environment.getExternalStorageDirectory().getAbsolutePath())//指定初始显示路径
+                                        .withIsGreater(false)//过滤文件大小 小于指定大小的文件
+                                        .withFileSize(500 * 1024)//指定文件大小为500K
+                                        .withTitle("备份地址选择")
+                                        .withChooseMode(false)//选择文件夹还是文件  true选择文件
+                                        .withBackgroundColor("#008577")
+                                        .withMutilyMode(false)//单选还是多选
+                                        .start();
 
-            if (is){
-                ToastUtils.showShort("点击了备份");
-            }else{
-                ToastUtils.showShort("保存文件失败");
+
+
+
+                }else{ // 用户拒绝了该权限，并且选中『不再询问』
+                    ToastUtils.showShort("请开启权限");
+                }
             }
+        }).dispose();
+
+
         }
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUESTCODE_FROM_ACTIVITY) {
+//                //如果是文件夹选择模式，需要获取选择的文件夹路径
+                String path = data.getStringExtra("path");
+                String json = new Gson().toJson( DaoUtils.getAccountDao().getAccountList());
+                String filePath = path+ File.separator+"备份_"+ TimeUtils.getNowString() +".cai";
+                boolean is =  FileIOUtils.writeFileFromBytesByChannel(
+                        filePath,
+                        EncryptUtils.encryptAES(json.getBytes(),Constants.AES_KEY.getBytes(),"AES/CBC/PKCS5Padding",Constants.AES_IV.getBytes()),
+                        false);
+                if (is){
+                    ToastUtils.showShort("备份完成:"+filePath);
+                }else{
+                    ToastUtils.showShort("备份失败");
+                }
+//                Toast.makeText(getApplicationContext(), "选中的路径为" + path, Toast.LENGTH_SHORT).show();
+            }
+        }
 
+    }
 
     public static void startHome(Context context){
         Intent intent = new Intent(context,HomeActivity.class);

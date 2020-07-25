@@ -3,6 +3,7 @@ package cai.project.module.common_utils.codeutils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.security.DigestInputStream;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -13,6 +14,7 @@ import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -924,6 +926,26 @@ public final class EncryptUtils {
         return symmetricTemplate(data, key, "AES", transformation, iv, false);
     }
 
+    /**得到新数据*/
+    private static byte[]  getByteData(final byte[] data,
+                                   final byte[] key){
+        if (data != null && key != null){
+            byte[] newData = new byte[key.length  + data.length];
+            for (int i = 0; i < newData.length; i++) {
+                if (i < key.length) {
+                    newData[i] = key[i];
+                } else {
+                    newData[i] = data[i - key.length];
+                }
+            }
+            return newData;
+        }else {
+            return data;
+        }
+
+
+    }
+
     /**
      * Return the bytes of symmetric encryption or decryption.
      *
@@ -934,14 +956,44 @@ public final class EncryptUtils {
      * @param isEncrypt      True to encrypt, false otherwise.
      * @return the bytes of symmetric encryption or decryption
      */
-    private static byte[] symmetricTemplate(final byte[] data,
-                                            final byte[] key,
+    private static byte[] symmetricTemplate(byte[] data,
+                                             byte[] key,
                                             final String algorithm,
                                             final String transformation,
-                                            final byte[] iv,
+                                             byte[] iv,
                                             final boolean isEncrypt) {
         if (data == null || data.length == 0 || key == null || key.length == 0) return null;
         try {
+
+
+            if (key.length != 16){
+                if (key.length < 16){
+                    int destPos = 16 - key.length;
+                    byte d = (byte) (destPos & key.length);
+                    byte[] newKey = new byte[16];
+                    for (int i = 0; i < newKey.length; i++) {
+                        if (i < key.length){
+                            newKey[i] = key[i];
+                        }else{
+                            newKey[i] = d;
+                        }
+                    }
+                    key = newKey;
+                }else{
+                    int destPos = key.length - 16;
+                    byte d = (byte) (destPos & key.length);
+                    byte[] newKey = new byte[16];
+                    for (int i = 0; i < newKey.length; i++) {
+                            newKey[i] = (byte) (key[i] ^ d);
+                    }
+                    key = newKey;
+                }
+            }
+
+
+
+
+
             SecretKey secretKey;
             if ("DES".equals(algorithm)) {
                 DESKeySpec desKey = new DESKeySpec(key);
@@ -954,6 +1006,29 @@ public final class EncryptUtils {
             if (iv == null || iv.length == 0) {
                 cipher.init(isEncrypt ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE, secretKey);
             } else {
+                if (iv.length != 16){
+                    if (iv.length < 16){
+                        int destPos = 16 - iv.length;
+                        byte d = (byte) (destPos & iv.length);
+                        byte[] newIv = new byte[16];
+                        for (int i = 0; i < newIv.length; i++) {
+                            if (i < iv.length){
+                                newIv[i] = iv[i];
+                            }else{
+                                newIv[i] = d;
+                            }
+                        }
+                        iv = newIv;
+                    }else{
+                        int destPos = iv.length - 16;
+                        byte d = (byte) (destPos & iv.length);
+                        byte[] newIv = new byte[16];
+                        for (int i = 0; i < newIv.length; i++) {
+                            newIv[i] = (byte) (iv[i] ^ d);
+                        }
+                        iv = newIv;
+                    }
+                }
                 AlgorithmParameterSpec params = new IvParameterSpec(iv);
                 cipher.init(isEncrypt ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE, secretKey, params);
             }

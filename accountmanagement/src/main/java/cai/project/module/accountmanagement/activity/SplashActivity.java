@@ -1,5 +1,6 @@
 package cai.project.module.accountmanagement.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.leon.lfilepickerlibrary.LFilePicker;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -36,9 +39,11 @@ import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.ApplyEntity;
 import cai.project.module.common_database.entity.account.AccountEntity;
 import cai.project.module.common_utils.codeutils.AppUtils;
+import cai.project.module.common_utils.codeutils.EncryptUtils;
 import cai.project.module.common_utils.codeutils.FileIOUtils;
 import cai.project.module.common_utils.codeutils.FileUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
+import io.reactivex.functions.Consumer;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -104,17 +109,29 @@ public class SplashActivity extends AppCompatActivity {
 //            }
 //            intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
 //            startActivityForResult(intent,1);
+            RxPermissions mRxPermissions = new RxPermissions(this);
+            mRxPermissions.requestEachCombined( Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Permission>() {
+                @Override
+                public void accept(Permission permission) throws Exception {
+                    if (permission.granted){ // 用户已经同意该权限
+                        new LFilePicker()
+                                .withActivity(SplashActivity.this)
+                                .withRequestCode(REQUESTCODE_FROM_ACTIVITY)
+                                .withStartPath(Environment.getExternalStorageDirectory().getAbsolutePath())//指定初始显示路径
+                                .withIsGreater(false)//过滤文件大小 小于指定大小的文件
+                                .withFileSize(500 * 1024)//指定文件大小为500K
+                                .withTitle("备份文件选择")
+                                .withChooseMode(true)//选择文件夹还是文件  true选择文件
+                                .withBackgroundColor("#008577")
+                                .withMutilyMode(false)//单选还是多选
+                                .start();
+                    }else{ // 用户拒绝了该权限，并且选中『不再询问』
+                        ToastUtils.showShort("请开启权限");
+                    }
+                }
+            }).dispose();
 
-            new LFilePicker()
-                    .withActivity(this)
-                    .withRequestCode(REQUESTCODE_FROM_ACTIVITY)
-                    .withStartPath(Environment.getExternalStorageDirectory().getAbsolutePath())//指定初始显示路径
-                    .withIsGreater(false)//过滤文件大小 小于指定大小的文件
-                    .withFileSize(500 * 1024)//指定文件大小为500K
-                    .withTitle("备份文件选择")
-                    .withBackgroundColor("#111111")
-                    .withMutilyMode(false)//单选还是多选
-                    .start();
+
 
         }
     }
@@ -129,14 +146,13 @@ public class SplashActivity extends AppCompatActivity {
                 List<String> list = data.getStringArrayListExtra("paths");
                 if (list != null && list.size() > 0){
                   byte[] bytes =  FileIOUtils.readFile2BytesByStream(list.get(0));
-
-                 String json =  new String(bytes);
-               AccountEntity[] listA = new Gson().fromJson(json, AccountEntity[].class);
-               DaoUtils.getAccountDao().addAccounts(Arrays.asList(listA));
-
-               ToastUtils.showShort("数据备份完成");
-
-//                    Toast.makeText(getApplicationContext(), "选中了" + listA.length + "个文件", Toast.LENGTH_SHORT).show();
+                  byte[] bytes1 = EncryptUtils.decryptAES(bytes,Constants.AES_KEY.getBytes(),"AES/CBC/PKCS5Padding",Constants.AES_IV.getBytes());
+                 String json =  new String( bytes1);
+                 if (json != null) {
+                     AccountEntity[] listA = new Gson().fromJson(json, AccountEntity[].class);
+                     DaoUtils.getAccountDao().addAccounts(Arrays.asList(listA));
+                     ToastUtils.showShort("数据备份完成");
+                 }
                 }
 
 

@@ -17,4 +17,8 @@ public final class Constants {
 
     // 7.0以上得读取地址标记
     public static final String APP_PROVIDER = "cai.project.module.accountmanagement";
+
+    public static final String AES_IV = "C72723";
+
+    public static final String AES_KEY = "a123";
 }

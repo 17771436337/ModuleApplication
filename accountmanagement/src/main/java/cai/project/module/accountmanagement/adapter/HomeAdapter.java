@@ -60,7 +60,7 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolde> {
     public void onBindViewHolder(@NonNull ViewHolde viewHolde, int i) {
         AccountEntity bean = date.get(i);
 
-        viewHolde.tvTime.setText(TimeUtils.getChineseWeek(bean.getTime()));
+        viewHolde.tvTime.setText(TimeUtils.millis2String(bean.getTime()));
         viewHolde.tvName.setText(bean.getAccountMessages().get(0).getName()+":"+bean.getAccountMessages().get(0).getDetail());
         if (listener != null ) {
             viewHolde.item.setOnClickListener(new View.OnClickListener() {
