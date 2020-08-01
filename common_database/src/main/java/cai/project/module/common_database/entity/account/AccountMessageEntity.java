@@ -99,6 +99,13 @@ public class AccountMessageEntity {
         this.SORTNO = SORTNO;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "AccountMessageEntity{" +
+                "name='" + name + '\'' +
+                ", detail='" + detail + '\'' +
+                ", accountId=" + accountId +
+                ", SORTNO=" + SORTNO +
+                '}';
+    }
 }

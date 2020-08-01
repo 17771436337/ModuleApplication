@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cai.project.module.accountmanagement" >
-
+    xmlns:tools="http://schemas.android.com/tools"
+    package="cai.project.module.accountmanagement">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:name="cai.project.module.common.BaseApplication"
         android:allowBackup="true"
@@ -9,6 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/NoActionBarAppTheme">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="cai.project.module.accountmanagement"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource" />
+        </provider>
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

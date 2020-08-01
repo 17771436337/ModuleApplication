@@ -54,7 +54,9 @@ dependencies {
     androidTestImplementation rootProject.ext.common_dependencies.espresso
 
 
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
+    implementation 'com.leon:lfilepickerlibrary:1.8.0'
     //-----------------------
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(':common')

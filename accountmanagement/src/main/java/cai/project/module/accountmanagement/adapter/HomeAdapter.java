@@ -39,11 +39,13 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolde> {
             dataList = Collections.emptyList();
         }
         this.date = dataList;
-        if (date != null && date.size() > 0) {
-            notifyItemMoved(0, date.size() - 1);
-        }else{
-            notifyDataSetChanged();
-        }
+
+        notifyDataSetChanged();
+//        if (date != null && date.size() > 0) {
+//            notifyItemMoved(0, date.size() - 1);
+//        }else{
+//            notifyDataSetChanged();
+//        }
     }
 
     @NonNull
@@ -56,10 +58,10 @@ public class HomeAdapter  extends RecyclerView.Adapter<HomeAdapter.ViewHolde> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolde viewHolde, int i) {
-        AccountEntity bean = date.get(viewHolde.getAdapterPosition());
+        AccountEntity bean = date.get(i);
 
-        viewHolde.tvTime.setText(TimeUtils.getChineseWeek(bean.getTime()));
-        viewHolde.tvName.setText(bean.getAccount());
+        viewHolde.tvTime.setText(TimeUtils.millis2String(bean.getTime()));
+        viewHolde.tvName.setText(bean.getAccountMessages().get(0).getName()+":"+bean.getAccountMessages().get(0).getDetail());
         if (listener != null ) {
             viewHolde.item.setOnClickListener(new View.OnClickListener() {
                 @Override

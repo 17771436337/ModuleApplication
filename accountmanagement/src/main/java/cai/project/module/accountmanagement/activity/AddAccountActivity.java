@@ -78,7 +78,7 @@ public class AddAccountActivity extends AppCompatActivity implements AddMessageV
                             AddMessageView addMessageView =  new AddMessageView(this, Constants.ACCOUNT_MESSAGE_NOT_DELETE);
                             addMessageView.setTitle(message.getName());
                             addMessageView.setMessage(message.getDetail());
-                            if ("账号".equals(message.getName()) || "密码".equals(message.getName())){
+                            if (message.getSORTNO() == 1 || message.getSORTNO() == 2){
                                 addMessageView.setShowDelete( Constants.ACCOUNT_MESSAGE_NOT_DELETE);
                             }else{
                                 addMessageView.setShowDelete( Constants.ACCOUNT_MESSAGE_ERASABLE);

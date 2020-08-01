@@ -204,5 +204,17 @@ public class AccountEntity {
         myDao = daoSession != null ? daoSession.getAccountEntityDao() : null;
     }
 
-
+    @Override
+    public String toString() {
+        return "AccountEntity{" +
+                "account='" + account + '\'' +
+                ", time=" + time +
+                ", classesId=" + classesId +
+                ", accountCategory=" + accountCategory +
+                ", accountMessages=" + accountMessages +
+                ", daoSession=" + daoSession +
+                ", myDao=" + myDao +
+                ", accountCategory__resolvedKey=" + accountCategory__resolvedKey +
+                '}';
+    }
 }
