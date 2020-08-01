@@ -1,0 +1,63 @@
+
+if (rootProject.ext.isDebug.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion rootProject.ext.common_android.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.common_android.minSdkVersion
+        targetSdkVersion rootProject.ext.common_android.targetSdkVersion
+        versionCode rootProject.ext.common_android.versionCode
+        versionName rootProject.ext.common_android.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+// 这里是需要添加代码
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+//    sourceSets {
+//        main {
+//            if (isDebug.toBoolean()) {
+//                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+//            } else {
+//                manifest.srcFile 'src/main/release/AndroidManifest.xml'
+//                java { exclude 'debug/**' }
+//            }
+//        }
+//    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.common_dependencies.appcompatV7
+    implementation rootProject.ext.common_dependencies.constraint
+    testImplementation rootProject.ext.common_dependencies.junit
+    androidTestImplementation rootProject.ext.common_dependencies.test
+    androidTestImplementation rootProject.ext.common_dependencies.espresso
+
+
+
+    //-----------------------
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    implementation project(':common')
+    //-----------------------------
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+}

@@ -28,6 +28,9 @@ import android.widget.Toast;
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 import cai.project.module.common_arouter.WebPath;
+import cai.project.module.common_utils.codeutils.ClipboardUtils;
+import cai.project.module.common_utils.codeutils.LinkUtils;
+import cai.project.module.common_utils.codeutils.ShareUtils;
 import cai.project.module.common_utils.statusbar.StatusBarUtil;
 import cai.project.module.web.R;
 import cai.project.module.web.client.CommonJavascriptInterface;
@@ -158,14 +161,14 @@ public class X5WebViewActivity extends AppCompatActivity implements IWebViewActi
             handleFinish();
         }else if (item.getItemId() ==  R.id.actionbar_share){// 分享到
             String shareText = webView.getTitle() + webView.getUrl();
-            BaseTools.share(X5WebViewActivity.this, shareText);
+            ShareUtils.shareText(X5WebViewActivity.this, shareText);
         }else if(item.getItemId() ==  R.id.actionbar_cope){// 复制链接
             if (!TextUtils.isEmpty(webView.getUrl())) {
-                BaseTools.copy(webView.getUrl());
+                ClipboardUtils.copyText(webView.getUrl());
                 Toast.makeText(this, "复制成功", Toast.LENGTH_LONG).show();
             }
         }else if (item.getItemId() == R.id.actionbar_open){// 打开链接
-            BaseTools.openLink(X5WebViewActivity.this, webView.getUrl());
+            LinkUtils.openLink(X5WebViewActivity.this, webView.getUrl());
         }else if (item.getItemId() == R.id.actionbar_webview_refresh){// 刷新页面
             if (webView != null) {
                 webView.reload();

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion rootProject.ext.common_android.compileSdkVersion
     defaultConfig {
@@ -11,6 +11,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    // 这里是需要添加代码
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
 
     buildTypes {
         release {
@@ -20,14 +26,13 @@ android {
     }
 
 }
+greendao {
+    schemaVersion 1//版本
+    daoPackage 'cai.project.module.common_database.gen' // 一般为app包名+生成文件的文件夹名
+    targetGenDir 'src/main/java' //生成文件路径
+}
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation rootProject.ext.common_dependencies.appcompatV7
-    testImplementation rootProject.ext.common_dependencies.junit
-    androidTestImplementation rootProject.ext.common_dependencies.test
-    androidTestImplementation rootProject.ext.common_dependencies.espresso
-
+    implementation 'org.greenrobot:greendao:3.2.2'
 //    implementation 'org.greenrobot:greendao:3.3.0' // add library
 }
