@@ -18,29 +18,28 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cai.project.module.accountmanagement.Constants;
 import cai.project.module.accountmanagement.R;
+import cai.project.module.accountmanagement.activity.account_editor.AddAccountActivity;
 import cai.project.module.accountmanagement.adapter.HomeAdapter;
+import cai.project.module.common.BaseActivity;
 import cai.project.module.common.adapter.SpacesItemDecoration;
 import cai.project.module.common.adapter.helper.WeSwipe;
 import cai.project.module.common.adapter.helper.WeSwipeHelper;
 import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.account.AccountEntity;
-import cai.project.module.common_utils.codeutils.EncodeUtils;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_utils.codeutils.EncryptUtils;
 import cai.project.module.common_utils.codeutils.FileIOUtils;
-import cai.project.module.common_utils.codeutils.FileUtils;
 import cai.project.module.common_utils.codeutils.TimeUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
 import io.reactivex.functions.Consumer;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     @BindView(R.id.iv_add)
     ImageView ivAdd;
@@ -49,16 +48,17 @@ public class HomeActivity extends AppCompatActivity {
 
     HomeAdapter adapter;
 
-
     int REQUESTCODE_FROM_ACTIVITY = 1000;
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.accountmanagement_activity_home);
-        ButterKnife.bind(this);
-        initData();
-        initListener();
+    protected void getIntents(Intent intent) {
+
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return new BasePresenter();
     }
 
     private void initListener() {
@@ -81,13 +81,20 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void initData() {
+    @Override
+    public int getLayoutId() {
+        return R.layout.accountmanagement_activity_home;
+    }
+
+    public void initData() {
         adapter  = new HomeAdapter(null);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SpacesItemDecoration(30));
         recyclerView.setAdapter(adapter);
         //设置WeSwipe。
         WeSwipe.attach(recyclerView).setType(WeSwipeHelper.SWIPE_ITEM_TYPE_FLOWING).setEnable(true);
+
+        initListener();
     }
 
     @Override
@@ -97,6 +104,8 @@ public class HomeActivity extends AppCompatActivity {
             adapter.checkData(DaoUtils.getAccountDao().getAccountList());
         }
     }
+
+
 
     @OnClick({R.id.iv_add ,R.id.tv})
     public void onClick(View view) {

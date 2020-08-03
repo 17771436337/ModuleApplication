@@ -1,31 +1,22 @@
 package cai.project.module.accountmanagement.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.io.File;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,19 +24,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cai.project.module.accountmanagement.Constants;
-import cai.project.module.accountmanagement.FFileUtils;
 import cai.project.module.accountmanagement.R;
+import cai.project.module.common.BaseActivity;
 import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.ApplyEntity;
 import cai.project.module.common_database.entity.account.AccountEntity;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_utils.codeutils.AppUtils;
 import cai.project.module.common_utils.codeutils.EncryptUtils;
 import cai.project.module.common_utils.codeutils.FileIOUtils;
-import cai.project.module.common_utils.codeutils.FileUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
 import io.reactivex.functions.Consumer;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.tv_password_hint)
     TextView tvPasswordHint;
@@ -59,12 +50,10 @@ public class SplashActivity extends AppCompatActivity {
     private ApplyEntity date;
 
     int REQUESTCODE_FROM_ACTIVITY = 1000;
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.accountmanagement_activity_splash);
-        ButterKnife.bind(this);
-    }
+    protected void getIntents(Intent intent) { }
 
     @Override
     protected void onResume() {
@@ -77,8 +66,22 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void initData() {
-        tvPasswordHint.setText(date.getPasswordHint());
+    @Override
+    protected BasePresenter createPresenter() {
+        return new BasePresenter();
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.accountmanagement_activity_splash;
+    }
+
+    @Override
+    public void initData() {
+        if (date != null) {
+            tvPasswordHint.setText(date.getPasswordHint());
+        }
+
     }
 
     @OnClick({R.id.bt_confirm, R.id.tv_forgot_password,R.id.tv_restore})

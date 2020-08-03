@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.HomeActivity"/>
-        <activity android:name=".activity.AddAccountActivity"/>
+        <activity android:name=".activity.account_editor.AddAccountActivity"/>
         <activity android:name=".activity.SetPasswordActivity"/>
     </application>
 

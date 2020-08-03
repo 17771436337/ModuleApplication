@@ -1,4 +1,4 @@
-package cai.project.module.accountmanagement.activity;
+package cai.project.module.accountmanagement.activity.account_editor;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,13 +18,15 @@ import cai.project.module.accountmanagement.Constants;
 import cai.project.module.accountmanagement.R;
 import cai.project.module.accountmanagement.model.type.StateType;
 import cai.project.module.accountmanagement.view.AddMessageView;
+import cai.project.module.common.BaseActivity;
 import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.account.AccountEntity;
 import cai.project.module.common_database.entity.account.AccountMessageEntity;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_utils.codeutils.ToastUtils;
 
 
-public class AddAccountActivity extends AppCompatActivity implements AddMessageView.ClickListener {
+public class AddAccountActivity extends BaseActivity<AccountEditPresenter> implements AddMessageView.ClickListener {
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_complete)
@@ -40,14 +42,13 @@ public class AddAccountActivity extends AppCompatActivity implements AddMessageV
     private Long id;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.accountmanagement_activity_add);
-        ButterKnife.bind(this);
-        getIntents(getIntent());
-        initData();
-        initListener();
+    public int getLayoutId() {
+        return R.layout.accountmanagement_activity_add;
+    }
 
+    @Override
+    protected AccountEditPresenter createPresenter() {
+        return new AccountEditPresenter();
     }
 
     private void initListener() {
@@ -56,12 +57,12 @@ public class AddAccountActivity extends AppCompatActivity implements AddMessageV
         }
     }
 
-    private void initData() {
+
+
+    public void initData() {
         messageViews = new ArrayList<>();
         switch (type){
             case Constants.ADD://添加
-
-
                 messageViews.add(new AddMessageView(this, Constants.ACCOUNT_MESSAGE_NOT_DELETE,"账号"));
                 messageViews.add(new AddMessageView(this,Constants.ACCOUNT_MESSAGE_NOT_DELETE, "密码"));
                 messageViews.add(new AddMessageView(this, Constants.ACCOUNT_MESSAGE_ERASABLE,"备注"));
@@ -109,7 +110,7 @@ public class AddAccountActivity extends AppCompatActivity implements AddMessageV
 
         }
 
-
+        initListener();
     }
 
     @OnClick({R.id.iv_back,R.id.iv_add,R.id.tv_complete})
@@ -169,7 +170,8 @@ public class AddAccountActivity extends AppCompatActivity implements AddMessageV
     }
 
 
-    private void getIntents(Intent intent){
+    @Override
+    protected void getIntents(Intent intent){
         type = intent.getIntExtra("TYPE",Constants.ADD);
         id = intent.getLongExtra("ID",0);
     }

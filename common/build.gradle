@@ -41,4 +41,5 @@ dependencies {
     api project(':common_utils')
     api project(':common_view')
     api project(':common_database')
+    api project(':common_mvp')
 }

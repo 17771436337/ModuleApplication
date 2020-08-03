@@ -18,12 +18,14 @@ import butterknife.OnClick;
 import cai.project.module.accountmanagement.Constants;
 import cai.project.module.accountmanagement.R;
 import cai.project.module.accountmanagement.model.type.StateType;
+import cai.project.module.common.BaseActivity;
 import cai.project.module.common_database.DaoUtils;
 import cai.project.module.common_database.entity.ApplyEntity;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_utils.codeutils.AppUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
 
-public class SetPasswordActivity extends AppCompatActivity {
+public class SetPasswordActivity extends BaseActivity {
 
     @BindView(R.id.et_password)
     EditText etPassword;
@@ -43,16 +45,17 @@ public class SetPasswordActivity extends AppCompatActivity {
     int type;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.accountmanagement_activity_set_password);
-        ButterKnife.bind(this);
-        getIntents(getIntent());
-        initData();
-
+    protected BasePresenter createPresenter() {
+        return new BasePresenter();
     }
 
-    private void initData() {
+    @Override
+    public int getLayoutId() {
+        return R.layout.accountmanagement_activity_set_password;
+    }
+
+    @Override
+    public void initData() {
         switch (type) {
             case Constants.EDITOR:
                 ivBack.setVisibility(View.VISIBLE);
@@ -112,7 +115,8 @@ public class SetPasswordActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    private void getIntents(Intent intent) {
+    @Override
+    protected void getIntents(Intent intent) {
         type = intent.getIntExtra("TYPE", Constants.ADD);
     }
 
