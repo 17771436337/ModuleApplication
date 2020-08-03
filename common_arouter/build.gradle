@@ -2,6 +2,7 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'com.alibaba:arouter-api:1.4.1'
 }
 //解决控件台中文乱码问题
 tasks.withType(JavaCompile) {
