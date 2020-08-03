@@ -3,6 +3,7 @@ package cai.project.module.accountmanagement.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -10,12 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import java.io.File;
 
@@ -35,6 +43,7 @@ import cai.project.module.common_database.entity.account.AccountEntity;
 import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_utils.codeutils.EncryptUtils;
 import cai.project.module.common_utils.codeutils.FileIOUtils;
+import cai.project.module.common_utils.codeutils.SizeUtils;
 import cai.project.module.common_utils.codeutils.TimeUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
 import io.reactivex.functions.Consumer;
@@ -44,7 +53,7 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.iv_add)
     ImageView ivAdd;
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    SwipeMenuRecyclerView recyclerView;
 
     HomeAdapter adapter;
 
@@ -61,25 +70,6 @@ public class HomeActivity extends BaseActivity {
         return new BasePresenter();
     }
 
-    private void initListener() {
-        if (adapter != null){
-            adapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener<AccountEntity>() {
-                @Override
-                public void onClick(View v, int pos, AccountEntity data) {
-                    AddAccountActivity.startAccountMessage(HomeActivity.this, Constants.EDITOR,data.getId());
-                }
-
-                @Override
-                public void onDelete(View v, int pos, AccountEntity data) {
-
-                    DaoUtils.getAccountDao().deleteAccount(data.getId());
-                    if (adapter != null){
-                            adapter.checkData(DaoUtils.getAccountDao().getAccountList());
-                    }
-                }
-            });
-        }
-    }
 
     @Override
     public int getLayoutId() {
@@ -87,21 +77,77 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void initData() {
-        adapter  = new HomeAdapter(null);
+        adapter  = new HomeAdapter(this,R.layout.accountmanagement_item_home_message);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // 创建菜单：
+        SwipeMenuCreator mSwipeMenuCreator = new SwipeMenuCreator() {
+            @Override
+            public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) {
+           /* SwipeMenuItem deleteItem = new SwipeMenuItem(mContext);
+            // 各种文字和图标属性设置。
+            leftMenu.addMenuItem(deleteItem); // 在Item左侧添加一个菜单。*/
+                // 在Item右侧添加一个菜单。
+                // 1.编辑
+                // 各种文字和图标属性设置。
+                SwipeMenuItem modifyItem = new SwipeMenuItem(HomeActivity.this)
+                        .setBackgroundColor(getResources().getColor(R.color.delete))
+                        .setText("编辑")
+                        .setTextColor(Color.WHITE)
+                        .setTextSize(14) // 文字大小。
+                        .setWidth(SizeUtils.dp2px(80))
+                        .setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+                rightMenu.addMenuItem(modifyItem);
+                // 2 删除
+                SwipeMenuItem deleteItem = new SwipeMenuItem(HomeActivity.this);
+                deleteItem.setText("删除")
+                        .setBackgroundColor(getResources().getColor(R.color.lable))
+                        .setTextColor(Color.WHITE) // 文字颜色。
+                        .setTextSize(14) // 文字大小。
+                        .setWidth(SizeUtils.dp2px(80))
+                        .setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+
+                rightMenu.addMenuItem(deleteItem);
+
+                // 注意：哪边不想要菜单，那么不要添加即可。
+            }
+        };
+        // 设置监听器。
+        recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+
+        SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener() {
+            @Override
+            public void onItemClick(SwipeMenuBridge menuBridge) {
+                // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
+                menuBridge.closeMenu();
+                int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
+                int adapterPosition = menuBridge.getAdapterPosition(); // RecyclerView的Item的position。
+                int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+                AccountEntity data = adapter.getData(adapterPosition);
+                if (menuPosition == 0) {
+                    AddAccountActivity.startAccountMessage(HomeActivity.this, Constants.EDITOR,data.getId());
+                } else {
+                    ToastUtils.showShort("删除");
+                    DaoUtils.getAccountDao().deleteAccount(data.getId());
+                    if (adapter != null){
+                        adapter.setData(DaoUtils.getAccountDao().getAccountList());
+                    }
+
+                }
+            }
+        };
+
+        // 菜单点击监听。
+        recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
         recyclerView.addItemDecoration(new SpacesItemDecoration(30));
         recyclerView.setAdapter(adapter);
-        //设置WeSwipe。
-        WeSwipe.attach(recyclerView).setType(WeSwipeHelper.SWIPE_ITEM_TYPE_FLOWING).setEnable(true);
-
-        initListener();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (adapter != null){
-            adapter.checkData(DaoUtils.getAccountDao().getAccountList());
+            adapter.setData(DaoUtils.getAccountDao().getAccountList());
         }
     }
 

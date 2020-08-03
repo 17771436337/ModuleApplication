@@ -23,13 +23,13 @@ Android 使用java组件化项目，添加各种组件，进行一个项目的�
  ######  7.  common_mvp
   实现项目对应的mvp框架
  ######  8.  common_basis
- 封装Activity，Fragment，adapter等
+ 封装Activity，Fragment，adapter等，封装adapter，进行简化处理
 
  ## 项目包
  ######  1.  app
  空项目，主要是做项目模块化处理
  ######  2.  accountmanagement
- 账号管理app，目前实现数据存储，备份，加密，保存
+ 账号管理app，目前实现数据存储，备份，加密，保存，修改侧滑删除，遗留侧滑与单击有时候冲突，并且没办法实现上拉加载下拉刷新了
  ######  3.  ftp
  ftp的相关Android代码，目前只实现ftp服务器的相关demo代码，能够做到局域网通过ftp访问手机文件
  ######  4.  game_2048

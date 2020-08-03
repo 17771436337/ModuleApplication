@@ -62,4 +62,7 @@ dependencies {
     implementation project(':common')
     //-----------------------------
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+
+
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
 }
