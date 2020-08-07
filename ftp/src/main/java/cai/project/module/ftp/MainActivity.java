@@ -17,6 +17,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import cai.project.module.common.BaseActivity;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_utils.codeutils.NetworkUtils;
 import cai.project.module.common_utils.codeutils.NotificationUtils;
 import cai.project.module.common_utils.codeutils.ServiceUtils;
@@ -25,7 +27,7 @@ import cai.project.module.ftp.server.FtpService;
 
 import static android.support.v4.app.NotificationCompat.PRIORITY_DEFAULT;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tv_url)
     TextView tvUrl;
@@ -47,14 +49,21 @@ public class MainActivity extends FragmentActivity {
     String port;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ftp_server_main_activity);
-        ButterKnife.bind(this);
-        init();
+    protected void getIntents(Intent intent) {
+
+    }
+    @Override
+    protected BasePresenter createPresenter() {
+        return new BasePresenter();
     }
 
-    private void init() {
+    @Override
+    public int getLayoutId() {
+        return R.layout.ftp_server_main_activity;
+    }
+
+    @Override
+    public void initData() {
         ip = NetworkUtils.getIPAddress(true);
         port = "2221";
         if (TextUtils.isEmpty(ip)) {
@@ -91,6 +100,8 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+
+
     @OnClick({R.id.bt_start, R.id.bt_setup})
     public void onClick(View view) {
         if (view.getId() == R.id.bt_start) {
@@ -121,10 +132,10 @@ public class MainActivity extends FragmentActivity {
     }
 
     public  void toCreateNotification(String message){
-
         LinNotify.show(this, 0, 0, "FTP服务器", null,
                 message, PRIORITY_DEFAULT, null,null ,0, "chat", FtpService.class,MainActivity.class);
     }
+
 
 
 }

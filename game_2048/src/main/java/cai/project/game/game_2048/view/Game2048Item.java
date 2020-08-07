@@ -67,7 +67,7 @@ public class Game2048Item extends View
 	{
 		
 		super.onDraw(canvas);
-		String mBgColor = "";
+		String mBgColor = "#EA7821";
 		switch (mNumber)
 		{
 		case 0:

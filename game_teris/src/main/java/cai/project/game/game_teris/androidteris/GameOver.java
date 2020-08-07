@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cai.project.game.game_teris.R;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
 public class GameOver extends BaseActivity{
 
@@ -22,58 +23,73 @@ public class GameOver extends BaseActivity{
 	public Button button1;
 
 	public int score;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
+	protected BasePresenter createPresenter() {
+		return new BasePresenter();
+	}
+
+	@Override
+	public int getLayoutId() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.game_over);
-		
+		return R.layout.game_over;
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
 		textViewTime = (TextView) findViewById(R.id.TextView1);
 		textViewScore = (TextView) findViewById(R.id.TextView2);
-		
-		
+
+
 		LinearLayout linear1 = (LinearLayout) findViewById(R.id.linear1);
 		AnimationSet set =new AnimationSet(false);
-		
+
 		Animation animation1 = new ScaleAnimation(0, 1, 0, 1);
 		animation1.setDuration(2000);
 		set.addAnimation(animation1);
-			
+
 		linear1.setAnimation(set);
-		
-		
-		
+
+
+
 		button1 = (Button) findViewById(R.id.Button1);
 
 		Intent intent = getIntent();
-		
+
 		final String str =intent.getStringExtra("time");
 		Log.d("TAG===>",str);
 		textViewTime.setText(str);
 		score = Integer.parseInt(intent.getStringExtra("score"));
 		textViewScore.setText(intent.getStringExtra("score"));
-		
+
 		button1.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(GameOver.this,MainActivity.class);
 				startActivity(intent);
 				finish();
-				
+
 			}
 		});
-		
 
-		
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public void initData() {
+
+	}
+
+
+	@Override
+	protected void getIntents(Intent intent) {
+
+	}
+
+
+
+
+
 }

@@ -11,13 +11,14 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import cai.project.game.game_teris.Tool.Util;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
 
 /**
  * Created by niko on 2017/5/7.
  */
 
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends cai.project.module.common.BaseActivity {
 
     private BackService mBackService;
 
@@ -87,4 +88,6 @@ public class BaseActivity extends Activity {
         super.onDestroy();
         unbindService(service);
     }
+
+
 }

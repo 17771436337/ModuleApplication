@@ -17,7 +17,6 @@ public class PlanetsAdapter extends PlanetAdapter {
     public int getCount() {
         return 39;
     }
-
     @Override
     public View getView(Context context, int position, ViewGroup parent) {
         PlanetView planetView = new PlanetView(context);

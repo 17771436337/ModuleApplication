@@ -17,6 +17,7 @@ import cai.project.game.game_teris.R;
 import cai.project.game.game_teris.R2;
 import cai.project.game.game_teris.Tool.SPUtils;
 import cai.project.game.game_teris.constant.Constant;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
 
 public class MusicPage extends BaseActivity implements OnClickListener {
@@ -32,32 +33,50 @@ public class MusicPage extends BaseActivity implements OnClickListener {
 	public Boolean isButtonGridLine;
 	
 	public BackService backPlay;
-	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
+	protected void getIntents(Intent intent) {
+		getGameSharedPreference();
+	}
+
+	@Override
+	protected BasePresenter createPresenter() {
+		return new BasePresenter();
+	}
+
+
+	@Override
+	public int getLayoutId() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.music_page);
-		
+		return R.layout.music_page;
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
 		backMusic = (CheckBox) findViewById(R.id.backmusic);
 		buttonMusic =  (CheckBox) findViewById(R.id.buttonmusic);
 		buttonGridLine = (CheckBox) findViewById(R.id.buttonGridLine);
 		setting = (Button)findViewById(R.id.setting);
 		cancel = (Button) findViewById(R.id.cancel);
-		getGameSharedPreference();
-		
+
+
 		backMusic.setChecked(isBackMusic);
 		buttonMusic.setChecked(isButtonMusic);
 		buttonGridLine.setChecked(isButtonGridLine);
-		
-		Intent intent = new Intent(this,BackService.class);
-		bindService(intent, conn, Context.BIND_AUTO_CREATE);
-		
+
+
 		setting.setOnClickListener(this);
 		cancel.setOnClickListener(this);
-		
 	}
+
+	@Override
+	public void initData() {
+
+		Intent intent = new Intent(this,BackService.class);
+		bindService(intent, conn, Context.BIND_AUTO_CREATE);
+	}
+	
+
 	
 	
 	private ServiceConnection conn  =new ServiceConnection(){
@@ -138,5 +157,4 @@ public class MusicPage extends BaseActivity implements OnClickListener {
 		finish();
 	}
 
-	
 }

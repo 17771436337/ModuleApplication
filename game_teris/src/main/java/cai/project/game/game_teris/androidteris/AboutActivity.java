@@ -25,6 +25,7 @@ import cai.project.game.game_teris.R2;
 import cai.project.game.game_teris.about.Findfgm;
 import cai.project.game.game_teris.about.Myfgm;
 import cai.project.game.game_teris.about.WeiXinfgm;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
 public class AboutActivity extends BaseActivity implements OnClickListener {
 
@@ -44,20 +45,39 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	public Fragment mMyself;
 	
 	public BackService backPlay;
-	
+
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void getIntents(Intent intent) {
+
+	}
+
+	@Override
+	protected BasePresenter createPresenter() {
+		return null;
+	}
+
+
+	@Override
+	public int getLayoutId() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.about_activity);
-		
+		return R.layout.about_activity;
+	}
+
+	@Override
+	public void initData() {
 		Intent intent = new Intent(this,BackService.class);
 		bindService(intent, conn, Context.BIND_AUTO_CREATE);
 		Log.d("TAg===>","intent ok");
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
+
 		InitView();
 	}
-	
-	
+
 	private ServiceConnection conn  =new ServiceConnection(){
 
 		@Override
@@ -241,8 +261,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 		unbindService(conn);
 		finish();
 	}
-	
 
-	
-	
+
 }

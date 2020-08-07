@@ -22,6 +22,7 @@ import cai.project.game.game_teris.R;
 import cai.project.game.game_teris.R2;
 import cai.project.game.game_teris.Tool.SPUtils;
 import cai.project.game.game_teris.constant.Constant;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
 public class SettingPage extends BaseActivity implements OnClickListener,OnSeekBarChangeListener {
 
@@ -74,43 +75,45 @@ public class SettingPage extends BaseActivity implements OnClickListener,OnSeekB
 			
 		}	
 	};
- 	
+
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
+	public int getLayoutId() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.setting_page);
-		
+		return R.layout.setting_page;
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
 		speed = (TextView) findViewById(R.id.speed);
 		Transverse = (TextView) findViewById(R.id.Transverse);
 		Longitudinal = (TextView) findViewById(R.id.Longitudinal);
 		touchLength = (TextView) findViewById(R.id.touchLength);
-		
+
 		setting = (Button)findViewById(R.id.setting);
 		cancel = (Button) findViewById(R.id.cancel);
 		speed2 = (SeekBar) findViewById(R.id.speed1);
 		Transverse2 =(SeekBar) findViewById(R.id.Transverse1);
 		Longitudinal2 = (SeekBar) findViewById(R.id.Longitudinal1);
 		touchLength2 = (SeekBar) findViewById(R.id.touchLength1);
-		
-		
-		getGameSharedPreference();
-		Log.d("TAG===>","speed_value"+speed_value);
-		
+	}
+
+	@Override
+	public void initData() {
 		speed.setText(speed_value+"");
 		Transverse.setText(Transverse_value+"");
 		Longitudinal.setText(Longitudinal_value+"");
 		touchLength.setText(touchLength_value+"");
-		
+
 		speed2.setProgress(speed_value-800+500);
 		Transverse2.setProgress(Transverse_value-10+5);
 		Longitudinal2.setProgress(Longitudinal_value-13+5);
 		touchLength2.setProgress(touchLength_value-100+50);
-		
+
 		Intent intent = new Intent(this,BackService.class);
 		bindService(intent, conn, Context.BIND_AUTO_CREATE);
-		
+
 		setting.setOnClickListener(this);
 		cancel.setOnClickListener(this);
 		speed2.setOnSeekBarChangeListener(this);
@@ -118,8 +121,8 @@ public class SettingPage extends BaseActivity implements OnClickListener,OnSeekB
 		Longitudinal2.setOnSeekBarChangeListener(this);
 		touchLength2.setOnSeekBarChangeListener(this);
 	}
-	
-	
+ 	
+
 	private ServiceConnection conn  =new ServiceConnection(){
 
 		@Override
@@ -223,10 +226,19 @@ public class SettingPage extends BaseActivity implements OnClickListener,OnSeekB
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		
 		unbindService(conn);
 	}
-	
+
+	@Override
+	protected void getIntents(Intent intent) {
+		getGameSharedPreference();
+	}
+
+	@Override
+	protected BasePresenter createPresenter() {
+		return new BasePresenter();
+	}
+
 	public void setGameSharedPreference(){
 
 		SPUtils.saveInt(this,Constant.KEY_SPEED, Constant.SPEED);
@@ -244,7 +256,7 @@ public class SettingPage extends BaseActivity implements OnClickListener,OnSeekB
 
 
 	}
-   
 
-	
+
+
 }

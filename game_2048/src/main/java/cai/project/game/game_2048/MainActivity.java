@@ -1,15 +1,15 @@
 package cai.project.game.game_2048;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
-
 import cai.project.game.game_2048.view.Game2048Layout;
 import cai.project.module.common.BaseActivity;
 import cai.project.module.common_arouter.GamePath;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
 
 @Route(path = GamePath.GAME_2018)
@@ -20,13 +20,25 @@ public class MainActivity extends BaseActivity implements Game2048Layout.OnGame2
     private TextView mScore;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game2048_main);
-
+    public void initView() {
+        super.initView();
         mScore = (TextView) findViewById(R.id.id_score);
         mGame2048Layout = (Game2048Layout) findViewById(R.id.id_game2048);
         mGame2048Layout.setOnGame2048Listener(this);
+    }
+
+    @Override
+    protected void getIntents(Intent intent) {
+
+    }
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return new BasePresenter();
     }
 
     @Override
@@ -51,5 +63,11 @@ public class MainActivity extends BaseActivity implements Game2048Layout.OnGame2
             }
         }).show();
     }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_game2048_main;
+    }
+
 
 }

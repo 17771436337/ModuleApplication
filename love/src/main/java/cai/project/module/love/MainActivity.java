@@ -2,6 +2,7 @@ package cai.project.module.love;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,30 +18,44 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cai.project.module.common.BaseActivity;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 import cai.project.module.common_view.animation.snow.FallObject;
 import cai.project.module.common_view.animation.snow.FallingView;
 import cai.project.module.common_view.animation.star_cloud.view.PlanetsView;
 import cai.project.module.love.adapter.PlanetsAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.snow_view)
     FallingView snowView;
     @BindView(R.id.soulPlanetView)
     PlanetsView soulPlanet;
 
+    @Override
+    protected void getIntents(Intent intent) { }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.love_main_activity);
-        ButterKnife.bind(this);
+    protected BasePresenter createPresenter() {
+        return new BasePresenter();
+    }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.love_main_activity;
+    }
+
+    @Override
+    public void initData() {
         //初始化雪花效果
         initSnow();
         //初始化星球云效果
         initPlants();
     }
+
+
+
+
 
     /**初始化星球云效果*/
     private void initPlants() {
@@ -79,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         alterDiaglog.setIcon(R.mipmap.tq1);//图标
         final TextView tv_text=view.findViewById(R.id.tv_text);//获取内容
         final ImageView iv_image=view.findViewById(R.id.iv_image);//获取图片
-
         //position 范围0-29
         switch (position){
             case 0:
@@ -286,9 +300,7 @@ public class MainActivity extends AppCompatActivity {
                 // Toast.makeText(MainActivity.this,"返回",Toast.LENGTH_SHORT).show();
             }
         });
-
         AlertDialog dialog = alterDiaglog.create();
-
         //显示
         dialog.show();
         //自定义的东西
@@ -302,9 +314,9 @@ public class MainActivity extends AppCompatActivity {
         p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.9
         p.windowAnimations=R.style.dialogStyle;
         p.gravity = Gravity.CENTER;//设置位置
-
         p.alpha = 0.9f;//设置透明度
         dialogWindow.setAttributes(p);
     }
+
 
 }

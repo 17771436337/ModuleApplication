@@ -30,8 +30,9 @@ import cai.project.game.game_teris.base.Shape;
 import cai.project.game.game_teris.base.ShapeFactory;
 import cai.project.game.game_teris.constant.Constant;
 import cai.project.game.game_teris.controller.Controller;
+import cai.project.module.common_mvp.presenter.BasePresenter;
 
-public class MainActivity extends Activity implements ComeBackAdapter,OnTouchListener {
+public class MainActivity extends BaseActivity implements ComeBackAdapter,OnTouchListener {
 
 	public Shape shape;
 	public Ground ground;
@@ -110,15 +111,18 @@ public class MainActivity extends Activity implements ComeBackAdapter,OnTouchLis
 		
 		
 	};
-	
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
+
+
+	@Override
+	public int getLayoutId() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_teris_main);
-		
+		return R.layout.activity_teris_main;
+	}
+
+	@Override
+	public void initView() {
+		super.initView();
 		LinearLayout panel = (LinearLayout) findViewById(R.id.panel);
 		pause = (ImageView) findViewById(R.id.pause);
 		gameScore = (TextView) findViewById(R.id.gameScore);
@@ -127,27 +131,27 @@ public class MainActivity extends Activity implements ComeBackAdapter,OnTouchLis
 		gameView = findViewById(R.id.gameView);
 
 		Log.d("TAG===>", ""+GameView.Cell_heightCount+"  "+GameView.Cell_widthCount);
-		
-	     shapeFactory = new ShapeFactory();
-	     ground=new Ground();
+
+		shapeFactory = new ShapeFactory();
+		ground=new Ground();
 		controller = new Controller(ground, shapeFactory,MainActivity.this);
 		controller.startGame();
 		panel.setOnTouchListener(this);
-		 gaT = new GameTime();
-		 gaT2= new GameTime();
+		gaT = new GameTime();
+		gaT2= new GameTime();
 		getInitTime();
-		new Thread(new TimeThread()).start();
-		
+
+
 		Log.d("TAG===��", "shape,startGame");
-		
+
 		pause.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(!controller.isPause)
 				{
-					controller.isPause = true; 
+					controller.isPause = true;
 					pause.setImageResource(R.drawable.pausebutton);
 				}else{
 					pause.setImageResource(R.drawable.playbutton);
@@ -156,12 +160,19 @@ public class MainActivity extends Activity implements ComeBackAdapter,OnTouchLis
 
 			}
 		});
-		
-		Intent intent = new Intent(this,BackService.class);
-		bindService(intent, conn, Context.BIND_AUTO_CREATE);
+
 
 
 	}
+
+	@Override
+	public void initData() {
+		new Thread(new TimeThread()).start();
+		Intent intent = new Intent(this,BackService.class);
+		bindService(intent, conn, Context.BIND_AUTO_CREATE);
+	}
+
+
 	
 	private ServiceConnection conn  =new ServiceConnection(){
 
@@ -305,7 +316,6 @@ public class MainActivity extends Activity implements ComeBackAdapter,OnTouchLis
 	}
 	
 	public void getInitTime(){
-		
 		Time t=new Time(); 
 		t.setToNow(); 
 		gaT2.hour = t.hour; 
@@ -313,8 +323,8 @@ public class MainActivity extends Activity implements ComeBackAdapter,OnTouchLis
 		gaT2.sec = t.second; 
 		
 	}
-	
-	
+
+
 	class TimeThread implements Runnable{
 
 		@Override
@@ -352,7 +362,16 @@ public class MainActivity extends Activity implements ComeBackAdapter,OnTouchLis
 		controller.isPause=true;
 		finish();
 	}
-	
+
+	@Override
+	protected void getIntents(Intent intent) {
+
+	}
+
+	@Override
+	protected BasePresenter createPresenter() {
+		return new BasePresenter();
+	}
 
 
 	@Override
