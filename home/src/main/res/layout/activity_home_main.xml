@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         app:leftShow="true"
-        app:rightShow="true"
+        app:rightShow="false"
         app:leftShowView="image"
         app:leftImage="@mipmap/ic_launcher"
         app:leftImageHeight="30dp"

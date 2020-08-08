@@ -2,42 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <RelativeLayout
+
+    <cai.project.module.common_view.widget.CustomToolBar
+        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/colorPrimaryDark">
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:text="备份"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            android:layout_centerVertical="true"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="账号列表"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            android:layout_centerVertical="true"/>
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        app:titleTextColor="@color/colorWhite"
+        app:titleTextSize="16sp"
+        app:titleText="账号列表"
+        app:leftShow="true"
+        app:leftShowView="text"
+        app:leftText="备份"
+        app:leftTextColor="@color/colorWhite"
+        app:leftTextSize="16sp"
+        app:rightShow="true"
+        app:rightShowView="image"
+        app:rightImage="@mipmap/icon_add"
+        app:rightImageWidth="45dp"
+        app:rightImageHeight="45dp"
+        />
 
 
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/icon_add"/>
-    </RelativeLayout>
 
 <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
     android:id="@+id/recycler_view"

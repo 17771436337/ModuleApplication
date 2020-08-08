@@ -5,9 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +29,8 @@ public class CustomToolBar extends RelativeLayout {
 
     //---------------------------
     private int isLeftTextOrImageMode = MODE_IMAGE;//判断左边是用图片还是文字，true为图片
-
     private int  isRightTextOrImageMode = MODE_TEXT;//判断右边是用图片还是文字，true为图片
-
     private boolean showRightView = false;//右边View是否显示
-
     private boolean showLeftView = true;//左边View是否显示
 
     private String strTitle;//设置标题的文字信息
@@ -118,7 +115,7 @@ public class CustomToolBar extends RelativeLayout {
         tvTitle.setText(strTitle == null?"标题": strTitle);
         tvTitle .setGravity(Gravity.CENTER);//居中
         tvTitle.setTextColor(colorTitleText);
-        tvTitle.setTextSize(sizeTitleText);
+        tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX,sizeTitleText);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0,SizeUtils.dp2px(10),0,SizeUtils.dp2px(10));
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -163,7 +160,7 @@ public class CustomToolBar extends RelativeLayout {
       if (!TextUtils.isEmpty(strRightText)) {
           textView.setText(strRightText);
       }
-        textView.setTextSize(sizeRightText);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,sizeRightText);
         textView.setTextColor(colorRightText);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -196,7 +193,7 @@ public class CustomToolBar extends RelativeLayout {
             textView.setText(strLeftText);
         }
 
-        textView.setTextSize(sizeLeftText);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,sizeLeftText);
         textView.setTextColor(colorLeftText);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 

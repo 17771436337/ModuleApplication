@@ -46,16 +46,18 @@ import cai.project.module.common_utils.codeutils.FileIOUtils;
 import cai.project.module.common_utils.codeutils.SizeUtils;
 import cai.project.module.common_utils.codeutils.TimeUtils;
 import cai.project.module.common_utils.codeutils.ToastUtils;
+import cai.project.module.common_view.widget.CustomToolBar;
 import io.reactivex.functions.Consumer;
 
 public class HomeActivity extends BaseActivity {
 
-    @BindView(R.id.iv_add)
-    ImageView ivAdd;
+
     @BindView(R.id.recycler_view)
     SwipeMenuRecyclerView recyclerView;
 
     HomeAdapter adapter;
+    @BindView(R.id.title)
+    CustomToolBar titleView;
 
     int REQUESTCODE_FROM_ACTIVITY = 1000;
 
@@ -141,6 +143,46 @@ public class HomeActivity extends BaseActivity {
         recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
         recyclerView.addItemDecoration(new SpacesItemDecoration(30));
         recyclerView.setAdapter(adapter);
+
+        titleView.setOnLeftClickListener(new CustomToolBar.OnLeftClickListener() {
+            @Override
+            public void onClick(View v) {
+                RxPermissions mRxPermissions = new RxPermissions(HomeActivity.this);
+
+                mRxPermissions.requestEachCombined( Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted){ // 用户已经同意该权限
+                            new LFilePicker()
+                                    .withActivity(HomeActivity.this)
+                                    .withRequestCode(REQUESTCODE_FROM_ACTIVITY)
+                                    .withStartPath(Environment.getExternalStorageDirectory().getAbsolutePath())//指定初始显示路径
+                                    .withIsGreater(false)//过滤文件大小 小于指定大小的文件
+                                    .withFileSize(500 * 1024)//指定文件大小为500K
+                                    .withTitle("备份地址选择")
+                                    .withChooseMode(false)//选择文件夹还是文件  true选择文件
+                                    .withBackgroundColor("#008577")
+                                    .withMutilyMode(false)//单选还是多选
+                                    .start();
+
+
+
+
+                        }else{ // 用户拒绝了该权限，并且选中『不再询问』
+                            ToastUtils.showShort("请开启权限");
+                        }
+                    }
+                }).dispose();
+
+            }
+        });
+
+        titleView.setOnRightClickListener(new CustomToolBar.OnRightClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddAccountActivity.startAccountMessage(HomeActivity.this, Constants.ADD,0L);
+            }
+        });
     }
 
     @Override
@@ -148,45 +190,6 @@ public class HomeActivity extends BaseActivity {
         super.onResume();
         if (adapter != null){
             adapter.setData(DaoUtils.getAccountDao().getAccountList());
-        }
-    }
-
-
-
-    @OnClick({R.id.iv_add ,R.id.tv})
-    public void onClick(View view) {
-        int id = view.getId();
-        if (id ==  R.id.iv_add){
-            AddAccountActivity.startAccountMessage(this, Constants.ADD,0L);
-        }else if (id == R.id.tv){
-            RxPermissions mRxPermissions = new RxPermissions(this);
-
-            mRxPermissions.requestEachCombined( Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Permission>() {
-            @Override
-            public void accept(Permission permission) throws Exception {
-                if (permission.granted){ // 用户已经同意该权限
-                                new LFilePicker()
-                                        .withActivity(HomeActivity.this)
-                                        .withRequestCode(REQUESTCODE_FROM_ACTIVITY)
-                                        .withStartPath(Environment.getExternalStorageDirectory().getAbsolutePath())//指定初始显示路径
-                                        .withIsGreater(false)//过滤文件大小 小于指定大小的文件
-                                        .withFileSize(500 * 1024)//指定文件大小为500K
-                                        .withTitle("备份地址选择")
-                                        .withChooseMode(false)//选择文件夹还是文件  true选择文件
-                                        .withBackgroundColor("#008577")
-                                        .withMutilyMode(false)//单选还是多选
-                                        .start();
-
-
-
-
-                }else{ // 用户拒绝了该权限，并且选中『不再询问』
-                    ToastUtils.showShort("请开启权限");
-                }
-            }
-        }).dispose();
-
-
         }
     }
 
