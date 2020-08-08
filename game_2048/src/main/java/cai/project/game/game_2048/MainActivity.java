@@ -2,7 +2,6 @@ package cai.project.game.game_2048;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;

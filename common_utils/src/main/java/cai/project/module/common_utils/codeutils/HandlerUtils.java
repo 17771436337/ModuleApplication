@@ -2,7 +2,6 @@ package cai.project.module.common_utils.codeutils;
 
 import android.os.Handler;
 import android.os.Message;
-
 import java.lang.ref.WeakReference;
 
 /**

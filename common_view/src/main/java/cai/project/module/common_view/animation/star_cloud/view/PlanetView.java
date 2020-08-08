@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.Shader.TileMode;
 import android.util.AttributeSet;
 import android.view.View;
-
 import cai.project.module.common_utils.codeutils.SizeUtils;
 
 

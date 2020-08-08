@@ -2,9 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#124524"
-    android:gravity="center">
+    android:orientation="vertical">
 
+    <cai.project.module.common_view.widget.CustomToolBar
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        app:leftShow="true"
+        app:rightShow="true"
+        app:leftShowView="image"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftImageHeight="30dp"
+        app:rightImageWidth="30dp"
+        app:rightShowView="text"
+        app:rightImage="@mipmap/ic_launcher"
+        app:rightText="右边"
+        app:rightTextColor="@color/colorPrimary"
+        app:rightTextSize="6sp"
+        app:titleText="@string/app_name"
+        app:titleTextSize="10sp"
+        app:titleTextColor="@color/colorAccent"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
