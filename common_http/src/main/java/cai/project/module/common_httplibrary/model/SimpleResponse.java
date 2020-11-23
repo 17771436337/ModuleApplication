@@ -8,32 +8,30 @@ public class SimpleResponse implements Serializable {
 
 
     private static final long serialVersionUID = -2880620027457962207L;
-
-    private int code;//编码
-    private String msg;//信息类型
+    private int error_code;//编码
+    private String reason;//信息类型
 
 
     public int getCode() {
-        return code;
+        return error_code;
     }
 
     public void setCode(int code) {
-        this.code = code;
+        this.error_code = code;
     }
 
     public String getMsg() {
-        return msg;
+        return reason;
     }
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        this.reason = msg;
     }
-
 
     public BaseResponse toResponse() {
         BaseResponse lzyResponse = new BaseResponse();
-        lzyResponse.setCode(code);
-        lzyResponse.setMsg(msg);
+        lzyResponse.setCode(error_code);
+        lzyResponse.setMsg(reason);
         return lzyResponse;
     }
 }

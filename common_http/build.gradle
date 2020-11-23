@@ -31,7 +31,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.7'
 
     //必须使用
-    implementation 'com.lzy.net:okgo:3.0.4'
+    api 'com.lzy.net:okgo:3.0.4'
     implementation 'com.lzy.net:okrx2:2.0.2'
     implementation 'com.lzy.net:okserver:2.0.5'
 }

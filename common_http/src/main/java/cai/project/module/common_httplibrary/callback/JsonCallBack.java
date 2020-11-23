@@ -1,4 +1,7 @@
 package cai.project.module.common_httplibrary.callback;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.exception.StorageException;
@@ -11,12 +14,16 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import cai.project.module.common_httplibrary.OkGoHttpException;
+import cai.project.module.common_httplibrary.OkGoHttpUtil;
 import cai.project.module.common_httplibrary.convert.JsonConvert;
 
 public abstract class JsonCallBack<T> extends AbsCallback<T>{
 
     private Type type;
     private Class<T> clazz;
+
+
+    public JsonCallBack() { }
 
     public JsonCallBack(Type type) {
         this.type = type;
@@ -26,15 +33,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T>{
         this.clazz = clazz;
     }
 
-    @Override
-    public void onCacheSuccess(Response<T> response) {
-        onSuccess(response.body());
-    }
 
-    @Override
-    public void onSuccess(Response<T> response) {
-        onSuccess(response.body());
-    }
 
     /**
      * 该方法是子线程处理，不能做ui相关的工作
@@ -65,26 +64,29 @@ public abstract class JsonCallBack<T> extends AbsCallback<T>{
         Throwable exception = response.getException();
         if(exception != null) exception.printStackTrace();
         if(exception instanceof UnknownHostException || exception instanceof ConnectException){
-           // ToastUtil.showShort("服务器连接失败，请检查后重试！");
+            Toast.makeText(OkGoHttpUtil.getApp(),"服务器连接失败，请检查后重试！",Toast.LENGTH_SHORT).show();
         }else if(exception instanceof SocketTimeoutException){
-           // ToastUtil.showShort("网络请求超时！");
+            Toast.makeText(OkGoHttpUtil.getApp(),"网络请求超时！",Toast.LENGTH_SHORT).show();
         }else if(exception instanceof HttpException){
-          //  ToastUtil.showShort("服务器维护，请稍后再试(404,500)！");
+            Toast.makeText(OkGoHttpUtil.getApp(),"服务器维护，请稍后再试(404,500)！",Toast.LENGTH_SHORT).show();
         }else if(exception instanceof StorageException){
-           // ToastUtil.showShort("SD卡不存在或者没有权限！");
-        }
-        else if(exception instanceof OkGoHttpException){//自定义的错误信息
+            Toast.makeText(OkGoHttpUtil.getApp(),"SD卡不存在或者没有权限！",Toast.LENGTH_SHORT).show();
+        } else if(exception instanceof OkGoHttpException){//自定义的错误信息
             //比如客户端与服务器交互之间出现的认为定义错误
+//
 
-            // ToastUtil.showShort("错误代码：" + ((OkGoHttpException) exception).getCode() +
-            // "，错误信息：" + exception.getMessage());
-
-
+            onErrorCode( ((OkGoHttpException) exception).getCode(),exception.getMessage());
         }
 
     }
 
 
-    /**将缓存统一处理*/
-    public abstract void onSuccess(T response);
+    /**用户自定义code信息*/
+    public void onErrorCode(int code,String msg){
+        Log.d("接口测试：","错误code："+code+",错误信息:"+msg);
+        Toast.makeText(OkGoHttpUtil.getApp(),"错误代码：" + code +
+                     "，错误信息：" + msg,Toast.LENGTH_SHORT).show();
+
+    }
+
 }

@@ -2,7 +2,7 @@ package cai.project.module.common_httplibrary;
 
 
 /**自定义一个接口错误*/
-public class OkGoHttpException extends Exception {
+public class OkGoHttpException extends IllegalStateException {
 
     private int code;//错误编号
 
