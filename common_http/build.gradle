@@ -27,6 +27,11 @@ dependencies {
     testImplementation rootProject.ext.common_dependencies.junit
     androidTestImplementation rootProject.ext.common_dependencies.test
     androidTestImplementation rootProject.ext.common_dependencies.espresso
-    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
     api 'com.google.code.gson:gson:2.7'
+
+    //必须使用
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.lzy.net:okrx2:2.0.2'
+    implementation 'com.lzy.net:okserver:2.0.5'
 }

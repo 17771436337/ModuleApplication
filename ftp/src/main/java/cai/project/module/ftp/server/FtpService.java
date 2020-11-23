@@ -35,10 +35,10 @@ public class FtpService extends Service{
 
 
     private FtpServer server;
-    private String user = "admin";
-    private String password = "123456";
-    private static String rootPath;
-    private int port = 2221;
+    private String user = "admin";//用户名
+    private String password = "123456";//密码
+    private static String rootPath;//访问地址
+    private int port = 2221;//端口
 
     @Nullable
     @Override
@@ -147,5 +147,7 @@ public class FtpService extends Service{
             server = null;
         }
     }
+
+
 
 }

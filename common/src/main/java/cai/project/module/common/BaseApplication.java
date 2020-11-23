@@ -5,6 +5,7 @@ import android.app.Application;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import cai.project.module.common_database.DaoUtils;
+import cai.project.module.common_httplibrary.OkGoHttpUtil;
 import cai.project.module.common_utils.codeutils.Utils;
 import cai.project.module.common_view.LinNotify;
 
@@ -27,5 +28,8 @@ public class BaseApplication extends Application {
         LinNotify.setNotificationChannel(this);
 
         DaoUtils.init(this);
+
+
+        OkGoHttpUtil.init(this);
     }
 }

@@ -21,20 +21,20 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
-        AccountCategoryEntityDao.createTable(db, ifNotExists);
         AccountEntityDao.createTable(db, ifNotExists);
         AccountMessageEntityDao.createTable(db, ifNotExists);
-        ApplyEntityDao.createTable(db, ifNotExists);
+        AccountCategoryEntityDao.createTable(db, ifNotExists);
         TestEntityDao.createTable(db, ifNotExists);
+        ApplyEntityDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
-        AccountCategoryEntityDao.dropTable(db, ifExists);
         AccountEntityDao.dropTable(db, ifExists);
         AccountMessageEntityDao.dropTable(db, ifExists);
-        ApplyEntityDao.dropTable(db, ifExists);
+        AccountCategoryEntityDao.dropTable(db, ifExists);
         TestEntityDao.dropTable(db, ifExists);
+        ApplyEntityDao.dropTable(db, ifExists);
     }
 
     /**
@@ -53,11 +53,11 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
-        registerDaoClass(AccountCategoryEntityDao.class);
         registerDaoClass(AccountEntityDao.class);
         registerDaoClass(AccountMessageEntityDao.class);
-        registerDaoClass(ApplyEntityDao.class);
+        registerDaoClass(AccountCategoryEntityDao.class);
         registerDaoClass(TestEntityDao.class);
+        registerDaoClass(ApplyEntityDao.class);
     }
 
     public DaoSession newSession() {
